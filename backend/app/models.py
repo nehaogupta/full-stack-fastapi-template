@@ -54,7 +54,7 @@ class User(UserBase, table=True):
         sa_type=DateTime(timezone=True),  # type: ignore
     )
     items: list["Item"] = Relationship(back_populates="owner", cascade_delete=True)
-
+    emps: list["Emp"] = Relationship(back_populates="owner", cascade_delete=True)
 
 # Properties to return via API, id is always required
 class UserPublic(UserBase):
@@ -66,6 +66,40 @@ class UsersPublic(SQLModel):
     data: list[UserPublic]
     count: int
 
+class EmpBase(SQLModel):
+    workemail: EmailStr = Field(unique=True, index=True, max_length=200)
+    name: str | None = Field(default=None, max_length=200)
+    address: str | None = Field(default=None, max_length=200)
+    mobile_number: str | None = Field(default=None, max_length=10,min_length=10)
+
+class EmpCreate(EmpBase):
+    pass
+
+class EmpUpdate(EmpBase):
+    address: str | None = Field(default=None, max_length=200)
+    mobile_number: str | None = Field(default=None, max_length=10)
+
+class Emp(EmpBase, table=True):
+    empcode: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+    created_at: datetime | None = Field(
+        default_factory=get_datetime_utc,
+        sa_type=DateTime(timezone=True),  # type: ignore
+    )
+    emp_id: uuid.UUID = Field(foreign_key="user.id", nullable=False, ondelete="CASCADE")
+    owner: User | None = Relationship(back_populates="emps")
+
+class EmpPublic(EmpBase):
+    empcode: uuid.UUID
+    emp_id: uuid.UUID
+    created_at: datetime | None = None
+
+
+class EmpsPublic(SQLModel):
+    data: list[EmpPublic]
+    count: int
+
+class Message(SQLModel):
+    message: str
 
 # Shared properties
 class ItemBase(SQLModel):

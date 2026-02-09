@@ -14,6 +14,7 @@ from app.core.config import settings
 from app.core.security import get_password_hash, verify_password
 from app.models import (
     Item,
+    Emp,
     Message,
     UpdatePassword,
     User,
@@ -225,7 +226,9 @@ def delete_user(
             status_code=403, detail="Super users are not allowed to delete themselves"
         )
     statement = delete(Item).where(col(Item.owner_id) == user_id)
-    session.exec(statement)
+    session.exec(statement).all()
+    statement = delete(Emp).where(col(Emp.emp_id) == user_id)
+    session.exec(statement).all()
     session.delete(user)
     session.commit()
     return Message(message="User deleted successfully")
