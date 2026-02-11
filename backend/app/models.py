@@ -80,12 +80,11 @@ class EmpUpdate(EmpBase):
     mobile_number: str | None = Field(default=None, max_length=10)
 
 class Emp(EmpBase, table=True):
-    empcode: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+    empcode: uuid.UUID = Field(foreign_key="user.id", nullable=False, ondelete="CASCADE")
     created_at: datetime | None = Field(
         default_factory=get_datetime_utc,
         sa_type=DateTime(timezone=True),  # type: ignore
     )
-    emp_id: uuid.UUID = Field(foreign_key="user.id", nullable=False, ondelete="CASCADE")
     owner: User | None = Relationship(back_populates="emps")
 
 class EmpPublic(EmpBase):
