@@ -1,10 +1,11 @@
 import uuid
 from datetime import datetime, timezone
 
-from pydantic import EmailStr
+from pydantic import EmailStr, constr
 from sqlalchemy import DateTime
 from sqlmodel import Field, Relationship, SQLModel
 
+Mobile10 = constr(regex=r"^\d{10}$")
 
 def get_datetime_utc() -> datetime:
     return datetime.now(timezone.utc)
@@ -70,7 +71,7 @@ class EmpBase(SQLModel):
     workemail: EmailStr = Field(unique=True, index=True, max_length=200)
     name: str | None = Field(default=None, max_length=200)
     address: str | None = Field(default=None, max_length=200)
-    mobile_number: str | None = Field(default=None, max_length=10,min_length=10)
+    mobile_number: Mobile10 = Field(default=None)
 
 class EmpCreate(EmpBase):
     emp_id: uuid.UUID = Field(default_factory=uuid.uuid4)
