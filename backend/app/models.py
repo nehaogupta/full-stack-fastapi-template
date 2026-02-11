@@ -1,11 +1,15 @@
 import uuid
 from datetime import datetime, timezone
+from typing import Annotated
 
-from pydantic import EmailStr, constr
+from pydantic import EmailStr, StringConstraints
 from sqlalchemy import DateTime
 from sqlmodel import Field, Relationship, SQLModel
 
-Mobile10 = constr(regex=r"^\d{10}$")
+Mobile10 = Annotated[
+    str,
+    StringConstraints(pattern=r"^\d{10}$")
+]
 
 def get_datetime_utc() -> datetime:
     return datetime.now(timezone.utc)
