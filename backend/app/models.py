@@ -94,9 +94,10 @@ class Emp(EmpBase, table=True):
     owner: User | None = Relationship(back_populates="emps")
 
 class EmpPublic(EmpBase):
+    empcode: uuid.UUID
     emp_id: uuid.UUID
     created_at: datetime | None = None
-    
+
 
 class EmpsPublic(SQLModel):
     data: list[EmpPublic]
