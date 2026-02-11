@@ -20,7 +20,7 @@ def read_emps(session: SessionDep, current_user: CurrentUser,skip: int = 0,limit
         statement = (
             select(Emp).order_by(col(Emp.created_at).desc()).offset(skip).limit(limit)
         )
-        emps = session.exec(statement).all()
+        emp = session.exec(statement).all()
     else:
         count_statement = (
             select(func.count())
@@ -35,19 +35,19 @@ def read_emps(session: SessionDep, current_user: CurrentUser,skip: int = 0,limit
             .offset(skip)
             .limit(limit)
         )
-        emps = session.exec(statement).all()
+        emp = session.exec(statement).all()
 
-    return EmpsPublic(data=emps, count=count)
+    return EmpsPublic(data=emp, count=count)
 
-@router.get("/{id}", response_model=EmpPublic)
-def read_emp(session: SessionDep, current_user: CurrentUser, emp_id: uuid.UUID) -> Any:
+@router.get("/{empcode}", response_model=EmpPublic)
+def read_emp(session: SessionDep, current_user: CurrentUser, empcode: uuid.UUID) -> Any:
     """
     Get Employee by Empcode.
     """
-    emps = session.get(Emp, emp_id)
+    emps = session.get(Emp, empcode)
     if not emps:
         raise HTTPException(status_code=404, detail="Employee not found")
-    if not current_user.is_superuser and (emps.emp_id != current_user.id):
+    if not current_user.is_superuser and (emps.empcode != current_user.id):
         raise HTTPException(status_code=403, detail="Not enough permissions")
     return emps
 
@@ -66,15 +66,15 @@ def create_emp(session: SessionDep, current_user: CurrentUser, emp_in: EmpCreate
     session.refresh(emps)
     return emps
 
-@router.patch("/{id}", response_model=EmpPublic)
-def update_emp(session: SessionDep, current_user: CurrentUser, emp_id: uuid.UUID, emp_in: EmpUpdate) -> Any:
+@router.patch("/{empcode}", response_model=EmpPublic)
+def update_emp(session: SessionDep, current_user: CurrentUser, empcode: uuid.UUID, emp_in: EmpUpdate) -> Any:
     """
     Update Employee.
     """
-    emps = session.get(Emp, emp_id)
+    emps = session.get(Emp, empcode)
     if not emps:
         raise HTTPException(status_code=404, detail="Employee not found")
-    if not current_user.is_superuser and (emps.emp_id != current_user.id):
+    if not current_user.is_superuser and (emps.empcode != current_user.id):
         raise HTTPException(status_code=403, detail="Not enough permissions")
     emp_data = emp_in.model_dump(exclude_unset=True)
     emps.sqlmodel_update(emp_data)
@@ -83,15 +83,15 @@ def update_emp(session: SessionDep, current_user: CurrentUser, emp_id: uuid.UUID
     session.refresh(emps)
     return emps
 
-@router.delete("/{id}", response_model=Message)
-def delete_emp(session: SessionDep, current_user: CurrentUser, emp_id: uuid.UUID) -> Any:
+@router.delete("/{empcode}", response_model=Message)
+def delete_emp(session: SessionDep, current_user: CurrentUser, empcode: uuid.UUID) -> Any:
     """
     Delete Employee.
     """
-    emps = session.get(Emp, emp_id)
+    emps = session.get(Emp, empcode)
     if not emps:
         raise HTTPException(status_code=404, detail="Employee not found")
-    if not current_user.is_superuser and (emps.emp_id != current_user.id):
+    if not current_user.is_superuser and (emps.empcode != current_user.id):
         raise HTTPException(status_code=403, detail="Not enough permissions")
     session.delete(emps)
     session.commit()
