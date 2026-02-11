@@ -10,7 +10,7 @@ from app.models import Emp, EmpCreate, EmpPublic, EmpsPublic, EmpUpdate, Message
 router = APIRouter(prefix="/emps", tags=["emps"])
 
 @router.get("/", response_model=EmpsPublic)
-def read_emps(session: SessionDep, current_user: CurrentUser,limit: int = 10) -> Any:
+def read_emps(session: SessionDep, current_user: CurrentUser,skip: int = 0,limit: int = 10) -> Any:
     """
     Retrieve Employees.
     """
@@ -18,7 +18,7 @@ def read_emps(session: SessionDep, current_user: CurrentUser,limit: int = 10) ->
         count_statement = select(func.count()).select_from(Emp)
         count = session.exec(count_statement).one()
         statement = (
-            select(Emp).order_by(col(Emp.created_at).desc()).limit(limit)
+            select(Emp).order_by(col(Emp.created_at).desc()).offset(skip).limit(limit)
         )
         emps = session.exec(statement).all()
     else:
@@ -32,6 +32,7 @@ def read_emps(session: SessionDep, current_user: CurrentUser,limit: int = 10) ->
             select(Emp)
             .where(Emp.emp_id == current_user.id)
             .order_by(col(Emp.created_at).desc())
+            .offset(skip)
             .limit(limit)
         )
         emps = session.exec(statement).all()
