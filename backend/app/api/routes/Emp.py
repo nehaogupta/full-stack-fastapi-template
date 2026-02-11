@@ -44,55 +44,55 @@ def read_emp(session: SessionDep, current_user: CurrentUser, emp_id: uuid.UUID) 
     """
     Get Employee by Empcode.
     """
-    emp = session.get(Emp, emp_id)
-    if not emp:
+    emps = session.get(Emp, emp_id)
+    if not emps:
         raise HTTPException(status_code=404, detail="Employee not found")
-    if not current_user.is_superuser and (emp.emp_id != current_user.id):
+    if not current_user.is_superuser and (emps.emp_id != current_user.id):
         raise HTTPException(status_code=403, detail="Not enough permissions")
-    return emp
+    return emps
 
 @router.post("/", response_model=EmpPublic)
 def create_emp(session: SessionDep, current_user: CurrentUser, emp_in: EmpCreate) -> Any:
     """
     Create new Employee.
     """
-    emp = session.exec(select(Emp).where(Emp.workemail == emp_in.workemail)).first()
-    if emp:
+    emps = session.exec(select(Emp).where(Emp.workemail == emp_in.workemail)).first()
+    if emps:
         raise HTTPException(status_code=400, detail="Employee with this email already exists")
-    emp = Emp.from_orm(emp_in)
-    emp.emp_id = current_user.id
-    session.add(emp)
+    emps = Emp.from_orm(emp_in)
+    emps.emp_id = current_user.id
+    session.add(emps)
     session.commit()
-    session.refresh(emp)
-    return emp
+    session.refresh(emps)
+    return emps
 
 @router.patch("/{id}", response_model=EmpPublic)
 def update_emp(session: SessionDep, current_user: CurrentUser, emp_id: uuid.UUID, emp_in: EmpUpdate) -> Any:
     """
     Update Employee.
     """
-    emp = session.get(Emp, emp_id)
-    if not emp:
+    emps = session.get(Emp, emp_id)
+    if not emps:
         raise HTTPException(status_code=404, detail="Employee not found")
-    if not current_user.is_superuser and (emp.emp_id != current_user.id):
+    if not current_user.is_superuser and (emps.emp_id != current_user.id):
         raise HTTPException(status_code=403, detail="Not enough permissions")
     emp_data = emp_in.model_dump(exclude_unset=True)
-    emp.sqlmodel_update(emp_data)
-    session.add(emp)
+    emps.sqlmodel_update(emp_data)
+    session.add(emps)
     session.commit()
-    session.refresh(emp)
-    return emp
+    session.refresh(emps)
+    return emps
 
 @router.delete("/{id}", response_model=Message)
 def delete_emp(session: SessionDep, current_user: CurrentUser, emp_id: uuid.UUID) -> Any:
     """
     Delete Employee.
     """
-    emp = session.get(Emp, emp_id)
-    if not emp:
+    emps = session.get(Emp, emp_id)
+    if not emps:
         raise HTTPException(status_code=404, detail="Employee not found")
-    if not current_user.is_superuser and (emp.emp_id != current_user.id):
+    if not current_user.is_superuser and (emps.emp_id != current_user.id):
         raise HTTPException(status_code=403, detail="Not enough permissions")
-    session.delete(emp)
+    session.delete(emps)
     session.commit()
     return Message(message="Employee deleted successfully")
