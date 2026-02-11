@@ -3,7 +3,116 @@
 import type { CancelablePromise } from './core/CancelablePromise';
 import { OpenAPI } from './core/OpenAPI';
 import { request as __request } from './core/request';
-import type { ItemsReadItemsData, ItemsReadItemsResponse, ItemsCreateItemData, ItemsCreateItemResponse, ItemsReadItemData, ItemsReadItemResponse, ItemsUpdateItemData, ItemsUpdateItemResponse, ItemsDeleteItemData, ItemsDeleteItemResponse, LoginLoginAccessTokenData, LoginLoginAccessTokenResponse, LoginTestTokenResponse, LoginRecoverPasswordData, LoginRecoverPasswordResponse, LoginResetPasswordData, LoginResetPasswordResponse, LoginRecoverPasswordHtmlContentData, LoginRecoverPasswordHtmlContentResponse, PrivateCreateUserData, PrivateCreateUserResponse, UsersReadUsersData, UsersReadUsersResponse, UsersCreateUserData, UsersCreateUserResponse, UsersReadUserMeResponse, UsersDeleteUserMeResponse, UsersUpdateUserMeData, UsersUpdateUserMeResponse, UsersUpdatePasswordMeData, UsersUpdatePasswordMeResponse, UsersRegisterUserData, UsersRegisterUserResponse, UsersReadUserByIdData, UsersReadUserByIdResponse, UsersUpdateUserData, UsersUpdateUserResponse, UsersDeleteUserData, UsersDeleteUserResponse, UtilsTestEmailData, UtilsTestEmailResponse, UtilsHealthCheckResponse } from './types.gen';
+import type { EmpsReadEmpsData, EmpsReadEmpsResponse, EmpsCreateEmpData, EmpsCreateEmpResponse, EmpsReadEmpData, EmpsReadEmpResponse, EmpsUpdateEmpData, EmpsUpdateEmpResponse, EmpsDeleteEmpData, EmpsDeleteEmpResponse, ItemsReadItemsData, ItemsReadItemsResponse, ItemsCreateItemData, ItemsCreateItemResponse, ItemsReadItemData, ItemsReadItemResponse, ItemsUpdateItemData, ItemsUpdateItemResponse, ItemsDeleteItemData, ItemsDeleteItemResponse, LoginLoginAccessTokenData, LoginLoginAccessTokenResponse, LoginTestTokenResponse, LoginRecoverPasswordData, LoginRecoverPasswordResponse, LoginResetPasswordData, LoginResetPasswordResponse, LoginRecoverPasswordHtmlContentData, LoginRecoverPasswordHtmlContentResponse, PrivateCreateUserData, PrivateCreateUserResponse, UsersReadUsersData, UsersReadUsersResponse, UsersCreateUserData, UsersCreateUserResponse, UsersReadUserMeResponse, UsersDeleteUserMeResponse, UsersUpdateUserMeData, UsersUpdateUserMeResponse, UsersUpdatePasswordMeData, UsersUpdatePasswordMeResponse, UsersRegisterUserData, UsersRegisterUserResponse, UsersReadUserByIdData, UsersReadUserByIdResponse, UsersUpdateUserData, UsersUpdateUserResponse, UsersDeleteUserData, UsersDeleteUserResponse, UtilsTestEmailData, UtilsTestEmailResponse, UtilsHealthCheckResponse } from './types.gen';
+
+export class EmpsService {
+    /**
+     * Read Emps
+     * Retrieve Employees.
+     * @param data The data for the request.
+     * @param data.limit
+     * @returns EmpsPublic Successful Response
+     * @throws ApiError
+     */
+    public static readEmps(data: EmpsReadEmpsData = {}): CancelablePromise<EmpsReadEmpsResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/emps/',
+            query: {
+                limit: data.limit
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Create Emp
+     * Create new Employee.
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns EmpPublic Successful Response
+     * @throws ApiError
+     */
+    public static createEmp(data: EmpsCreateEmpData): CancelablePromise<EmpsCreateEmpResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/emps/',
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Read Emp
+     * Get Employee by Empcode.
+     * @param data The data for the request.
+     * @param data.empId
+     * @returns EmpPublic Successful Response
+     * @throws ApiError
+     */
+    public static readEmp(data: EmpsReadEmpData): CancelablePromise<EmpsReadEmpResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/emps/{id}',
+            query: {
+                emp_id: data.empId
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Update Emp
+     * Update Employee.
+     * @param data The data for the request.
+     * @param data.empId
+     * @param data.requestBody
+     * @returns EmpPublic Successful Response
+     * @throws ApiError
+     */
+    public static updateEmp(data: EmpsUpdateEmpData): CancelablePromise<EmpsUpdateEmpResponse> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/api/v1/emps/{id}',
+            query: {
+                emp_id: data.empId
+            },
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+    
+    /**
+     * Delete Emp
+     * Delete Employee.
+     * @param data The data for the request.
+     * @param data.empId
+     * @returns Message Successful Response
+     * @throws ApiError
+     */
+    public static deleteEmp(data: EmpsDeleteEmpData): CancelablePromise<EmpsDeleteEmpResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/emps/{id}',
+            query: {
+                emp_id: data.empId
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+}
 
 export class ItemsService {
     /**

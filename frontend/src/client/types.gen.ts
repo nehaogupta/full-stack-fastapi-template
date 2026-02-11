@@ -9,6 +9,35 @@ export type Body_login_login_access_token = {
     client_secret?: (string | null);
 };
 
+export type EmpCreate = {
+    workemail: string;
+    name?: (string | null);
+    address?: (string | null);
+    mobile_number?: (string | null);
+};
+
+export type EmpPublic = {
+    workemail: string;
+    name?: (string | null);
+    address?: (string | null);
+    mobile_number?: (string | null);
+    empcode: string;
+    emp_id: string;
+    created_at?: (string | null);
+};
+
+export type EmpsPublic = {
+    data: Array<EmpPublic>;
+    count: number;
+};
+
+export type EmpUpdate = {
+    workemail: string;
+    name?: (string | null);
+    address?: (string | null);
+    mobile_number?: (string | null);
+};
+
 export type HTTPValidationError = {
     detail?: Array<ValidationError>;
 };
@@ -107,7 +136,42 @@ export type ValidationError = {
     loc: Array<(string | number)>;
     msg: string;
     type: string;
+    input?: unknown;
+    ctx?: {
+        [key: string]: unknown;
+    };
 };
+
+export type EmpsReadEmpsData = {
+    limit?: number;
+};
+
+export type EmpsReadEmpsResponse = (EmpsPublic);
+
+export type EmpsCreateEmpData = {
+    requestBody: EmpCreate;
+};
+
+export type EmpsCreateEmpResponse = (EmpPublic);
+
+export type EmpsReadEmpData = {
+    empId: string;
+};
+
+export type EmpsReadEmpResponse = (EmpPublic);
+
+export type EmpsUpdateEmpData = {
+    empId: string;
+    requestBody: EmpUpdate;
+};
+
+export type EmpsUpdateEmpResponse = (EmpPublic);
+
+export type EmpsDeleteEmpData = {
+    empId: string;
+};
+
+export type EmpsDeleteEmpResponse = (Message);
 
 export type ItemsReadItemsData = {
     limit?: number;

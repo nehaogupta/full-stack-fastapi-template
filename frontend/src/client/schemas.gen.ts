@@ -57,6 +57,199 @@ export const Body_login_login_access_tokenSchema = {
     title: 'Body_login-login_access_token'
 } as const;
 
+export const EmpCreateSchema = {
+    properties: {
+        workemail: {
+            type: 'string',
+            maxLength: 200,
+            format: 'email',
+            title: 'Workemail'
+        },
+        name: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 200
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Name'
+        },
+        address: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 200
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Address'
+        },
+        mobile_number: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 10,
+                    minLength: 10
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Mobile Number'
+        }
+    },
+    type: 'object',
+    required: ['workemail'],
+    title: 'EmpCreate'
+} as const;
+
+export const EmpPublicSchema = {
+    properties: {
+        workemail: {
+            type: 'string',
+            maxLength: 200,
+            format: 'email',
+            title: 'Workemail'
+        },
+        name: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 200
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Name'
+        },
+        address: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 200
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Address'
+        },
+        mobile_number: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 10,
+                    minLength: 10
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Mobile Number'
+        },
+        empcode: {
+            type: 'string',
+            format: 'uuid',
+            title: 'Empcode'
+        },
+        emp_id: {
+            type: 'string',
+            format: 'uuid',
+            title: 'Emp Id'
+        },
+        created_at: {
+            anyOf: [
+                {
+                    type: 'string',
+                    format: 'date-time'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Created At'
+        }
+    },
+    type: 'object',
+    required: ['workemail', 'empcode', 'emp_id'],
+    title: 'EmpPublic'
+} as const;
+
+export const EmpUpdateSchema = {
+    properties: {
+        workemail: {
+            type: 'string',
+            maxLength: 200,
+            format: 'email',
+            title: 'Workemail'
+        },
+        name: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 200
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Name'
+        },
+        address: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 200
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Address'
+        },
+        mobile_number: {
+            anyOf: [
+                {
+                    type: 'string',
+                    maxLength: 10
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Mobile Number'
+        }
+    },
+    type: 'object',
+    required: ['workemail'],
+    title: 'EmpUpdate'
+} as const;
+
+export const EmpsPublicSchema = {
+    properties: {
+        data: {
+            items: {
+                '$ref': '#/components/schemas/EmpPublic'
+            },
+            type: 'array',
+            title: 'Data'
+        },
+        count: {
+            type: 'integer',
+            title: 'Count'
+        }
+    },
+    type: 'object',
+    required: ['data', 'count'],
+    title: 'EmpsPublic'
+} as const;
+
 export const HTTPValidationErrorSchema = {
     properties: {
         detail: {
@@ -544,6 +737,13 @@ export const ValidationErrorSchema = {
         type: {
             type: 'string',
             title: 'Error Type'
+        },
+        input: {
+            title: 'Input'
+        },
+        ctx: {
+            type: 'object',
+            title: 'Context'
         }
     },
     type: 'object',
