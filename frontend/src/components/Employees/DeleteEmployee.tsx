@@ -71,7 +71,7 @@ const DeleteEmployee = ({ id, onSuccess }: DeleteEmployeeProps) => {
           </DialogClose>
           <LoadingButton
             onClick={handleDeleteClick}
-            isLoading={mutation.isPending}
+            loading={mutation.isPending}
             variant="destructive"
           >
             Delete

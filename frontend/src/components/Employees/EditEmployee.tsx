@@ -171,7 +171,7 @@ const EditEmployee = ({ employee, onSuccess }: EditEmployeeProps) => {
               </DialogClose>
               <LoadingButton
                 type="submit"
-                isLoading={mutation.isPending}
+                loading={mutation.isPending}
               >
                 Update Employee
               </LoadingButton>

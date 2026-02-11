@@ -151,7 +151,7 @@ const AddEmployee = () => {
               </DialogClose>
               <LoadingButton
                 type="submit"
-                isLoading={mutation.isPending}
+                loading={mutation.isPending}
               >
                 Add Employee
               </LoadingButton>
