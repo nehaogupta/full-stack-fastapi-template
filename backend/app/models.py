@@ -73,18 +73,19 @@ class EmpBase(SQLModel):
     mobile_number: str | None = Field(default=None, max_length=10,min_length=10)
 
 class EmpCreate(EmpBase):
-    pass
+    emp_id: uuid.UUID = Field(default_factory=uuid.uuid4)
 
 class EmpUpdate(EmpBase):
     address: str | None = Field(default=None, max_length=200)
     mobile_number: str | None = Field(default=None, max_length=10)
 
 class Emp(EmpBase, table=True):
-    empcode: uuid.UUID = Field(foreign_key="user.id", nullable=False, ondelete="CASCADE")
+    empcode: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     created_at: datetime | None = Field(
         default_factory=get_datetime_utc,
         sa_type=DateTime(timezone=True),  # type: ignore
     )
+    emp_id: uuid.UUID = Field(foreign_key="user.id", nullable=False, ondelete="CASCADE")
     owner: User | None = Relationship(back_populates="emps")
 
 class EmpPublic(EmpBase):
