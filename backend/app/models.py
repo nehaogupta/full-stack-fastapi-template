@@ -82,7 +82,7 @@ class EmpCreate(EmpBase):
 
 class EmpUpdate(EmpBase):
     address: str | None = Field(default=None, max_length=200)
-    mobile_number: str | None = Field(default=None, max_length=10)
+    mobile_number: Mobile10 = Field(default=None)
 
 class Emp(EmpBase, table=True):
     empcode: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)

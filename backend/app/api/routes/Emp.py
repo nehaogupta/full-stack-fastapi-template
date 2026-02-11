@@ -51,7 +51,7 @@ def read_emp(session: SessionDep, current_user: CurrentUser, empcode: uuid.UUID)
         raise HTTPException(status_code=403, detail="Not enough permissions")
     return emps
 
-@router.post("/", response_model=EmpCreate)
+@router.post("/", response_model=EmpPublic)
 def create_emp(session: SessionDep, current_user: CurrentUser, emp_in: EmpCreate) -> Any:
     """
     Create new Employee.
@@ -66,8 +66,8 @@ def create_emp(session: SessionDep, current_user: CurrentUser, emp_in: EmpCreate
     session.refresh(emps)
     return emps
 
-@router.patch("/{empcode}", response_model=EmpUpdate)
-def update_emp(session: SessionDep, current_user: CurrentUser, empcode: uuid.UUID, emp_in: EmpUpdate) -> Any:
+@router.patch("/{empcode}", response_model=EmpPublic)
+def update_emp(*,session: SessionDep, current_user: CurrentUser, empcode: uuid.UUID, emp_in: EmpUpdate) -> Any:
     """
     Update Employee.
     """
@@ -76,8 +76,8 @@ def update_emp(session: SessionDep, current_user: CurrentUser, empcode: uuid.UUI
         raise HTTPException(status_code=404, detail="Employee not found")
     if not current_user.is_superuser and (emps.empcode != current_user.id):
         raise HTTPException(status_code=403, detail="Not enough permissions")
-    emp_data = emp_in.model_dump(exclude_unset=True)
-    emps.sqlmodel_update(emp_data)
+    update_emp = emp_in.model_dump(exclude_unset=True)
+    emps.sqlmodel_update(update_emp)
     session.add(emps)
     session.commit()
     session.refresh(emps)
