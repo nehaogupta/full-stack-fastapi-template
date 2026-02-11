@@ -226,9 +226,9 @@ def delete_user(
             status_code=403, detail="Super users are not allowed to delete themselves"
         )
     statement = delete(Item).where(col(Item.owner_id) == user_id)
-    session.exec(statement).all()
-    statement = delete(Emp).where(col(Emp.emp_id) == user_id)
-    session.exec(statement).all()
+    statement2 = delete(Emp).where(col(Emp.emp_id) == user_id)
+    session.exec(statement)
+    session.exec(statement2)
     session.delete(user)
     session.commit()
     return Message(message="User deleted successfully")
