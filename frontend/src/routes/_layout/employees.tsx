@@ -11,7 +11,7 @@ import PendingEmployees from "@/components/Pending/PendingEmployees"
 
 function getEmployeesQueryOptions() {
   return {
-    queryFn: () => EmpsService.readEmps({ skip: 0, limit: 100 }),
+    queryFn: () => EmpsService.readEmps({limit: 10}),
     queryKey: ["employees"],
   }
 }
