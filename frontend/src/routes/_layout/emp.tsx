@@ -12,7 +12,7 @@ import PendingEmps from "@/components/Pending/PendingEmps"
 function getEmpsQueryOptions() {
   return {
     queryFn: () => EmpsService.readEmps(),
-    queryKey: ["emps"],
+    queryKey: ["emp"],
   }
 }
 
