@@ -7,7 +7,7 @@ from sqlmodel import col, func, select
 from app.api.deps import CurrentUser, SessionDep
 from app.models import Emp, EmpCreate, EmpPublic, EmpsPublic, EmpUpdate, Message
 
-router = APIRouter(prefix="/emp", tags=["employee"])
+router = APIRouter(prefix="/emps", tags=["emps"])
 
 @router.get("/", response_model=EmpsPublic)
 def read_emps(session: SessionDep, current_user: CurrentUser,skip: int = 0,limit: int = 10) -> Any:
