@@ -7,7 +7,7 @@ import { EmpsService } from "@/client/sdk.gen"
 import { DataTable } from "@/components/Common/DataTable"
 import AddEmp from "@/components/Emp/AddEmp"
 import { columns } from "@/components/Emp/columns"
-import PendingItems from "@/components/Pending/PendingItems"
+import PendingEmps from "@/components/Pending/PendingEmps"
 
 function getEmpsQueryOptions() {
   return {
@@ -47,7 +47,7 @@ function EmpsTableContent() {
 
 function EmpsTable() {
   return (
-    <Suspense fallback={<PendingItems />}>
+    <Suspense fallback={<PendingEmps />}>
       <EmpsTableContent />
     </Suspense>
   )
