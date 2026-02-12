@@ -17,7 +17,7 @@ import { Route as LayoutRouteImport } from './routes/_layout'
 import { Route as LayoutIndexRouteImport } from './routes/_layout/index'
 import { Route as LayoutSettingsRouteImport } from './routes/_layout/settings'
 import { Route as LayoutItemsRouteImport } from './routes/_layout/items'
-import { Route as LayoutEmpsRouteImport } from './routes/_layout/emps'
+import { Route as LayoutEmpRouteImport } from './routes/_layout/emps'
 import { Route as LayoutAdminRouteImport } from './routes/_layout/admin'
 
 const SignupRoute = SignupRouteImport.update({
@@ -59,7 +59,7 @@ const LayoutItemsRoute = LayoutItemsRouteImport.update({
   path: '/items',
   getParentRoute: () => LayoutRoute,
 } as any)
-const LayoutEmpsRoute = LayoutEmpsRouteImport.update({
+const LayoutEmpRoute = LayoutEmpRouteImport.update({
   id: '/emps',
   path: '/emps',
   getParentRoute: () => LayoutRoute,
@@ -77,7 +77,7 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/admin': typeof LayoutAdminRoute
-  '/emps': typeof LayoutEmpsRoute
+  '/emps': typeof LayoutEmpRoute
   '/items': typeof LayoutItemsRoute
   '/settings': typeof LayoutSettingsRoute
 }
@@ -87,7 +87,7 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/admin': typeof LayoutAdminRoute
-  '/emps': typeof LayoutEmpsRoute
+  '/emps': typeof LayoutEmpRoute
   '/items': typeof LayoutItemsRoute
   '/settings': typeof LayoutSettingsRoute
   '/': typeof LayoutIndexRoute
@@ -100,7 +100,7 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/_layout/admin': typeof LayoutAdminRoute
-  '/_layout/emps': typeof LayoutEmpsRoute
+  '/_layout/emps': typeof LayoutEmpRoute
   '/_layout/items': typeof LayoutItemsRoute
   '/_layout/settings': typeof LayoutSettingsRoute
   '/_layout/': typeof LayoutIndexRoute
@@ -212,7 +212,7 @@ declare module '@tanstack/react-router' {
       id: '/_layout/emps'
       path: '/emps'
       fullPath: '/emps'
-      preLoaderRoute: typeof LayoutEmpsRouteImport
+      preLoaderRoute: typeof LayoutEmpRouteImport
       parentRoute: typeof LayoutRoute
     }
     '/_layout/admin': {
@@ -227,7 +227,7 @@ declare module '@tanstack/react-router' {
 
 interface LayoutRouteChildren {
   LayoutAdminRoute: typeof LayoutAdminRoute
-  LayoutEmpsRoute: typeof LayoutEmpsRoute
+  LayoutEmpsRoute: typeof LayoutEmpRoute
   LayoutItemsRoute: typeof LayoutItemsRoute
   LayoutSettingsRoute: typeof LayoutSettingsRoute
   LayoutIndexRoute: typeof LayoutIndexRoute
@@ -235,7 +235,7 @@ interface LayoutRouteChildren {
 
 const LayoutRouteChildren: LayoutRouteChildren = {
   LayoutAdminRoute: LayoutAdminRoute,
-  LayoutEmpsRoute: LayoutEmpsRoute,
+  LayoutEmpsRoute: LayoutEmpRoute,
   LayoutItemsRoute: LayoutItemsRoute,
   LayoutSettingsRoute: LayoutSettingsRoute,
   LayoutIndexRoute: LayoutIndexRoute,
