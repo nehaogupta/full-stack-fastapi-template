@@ -17,7 +17,7 @@ import { Route as LayoutRouteImport } from './routes/_layout'
 import { Route as LayoutIndexRouteImport } from './routes/_layout/index'
 import { Route as LayoutSettingsRouteImport } from './routes/_layout/settings'
 import { Route as LayoutItemsRouteImport } from './routes/_layout/items'
-import { Route as LayoutEmpsRouteImport } from './routes/_layout/emps'
+import { Route as LayoutEmpRouteImport } from './routes/_layout/emp'
 import { Route as LayoutAdminRouteImport } from './routes/_layout/admin'
 
 const SignupRoute = SignupRouteImport.update({
@@ -59,9 +59,9 @@ const LayoutItemsRoute = LayoutItemsRouteImport.update({
   path: '/items',
   getParentRoute: () => LayoutRoute,
 } as any)
-const LayoutEmpsRoute = LayoutEmpsRouteImport.update({
-  id: '/emps',
-  path: '/emps',
+const LayoutEmpRoute = LayoutEmpRouteImport.update({
+  id: '/emp',
+  path: '/emp',
   getParentRoute: () => LayoutRoute,
 } as any)
 const LayoutAdminRoute = LayoutAdminRouteImport.update({
@@ -77,7 +77,7 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/admin': typeof LayoutAdminRoute
-  '/emps': typeof LayoutEmpsRoute
+  '/emp': typeof LayoutEmpRoute
   '/items': typeof LayoutItemsRoute
   '/settings': typeof LayoutSettingsRoute
 }
@@ -87,7 +87,7 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/admin': typeof LayoutAdminRoute
-  '/emps': typeof LayoutEmpsRoute
+  '/emp': typeof LayoutEmpRoute
   '/items': typeof LayoutItemsRoute
   '/settings': typeof LayoutSettingsRoute
   '/': typeof LayoutIndexRoute
@@ -100,7 +100,7 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/_layout/admin': typeof LayoutAdminRoute
-  '/_layout/emps': typeof LayoutEmpsRoute
+  '/_layout/emp': typeof LayoutEmpRoute
   '/_layout/items': typeof LayoutItemsRoute
   '/_layout/settings': typeof LayoutSettingsRoute
   '/_layout/': typeof LayoutIndexRoute
@@ -114,7 +114,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/signup'
     | '/admin'
-    | '/emps'
+    | '/emp'
     | '/items'
     | '/settings'
   fileRoutesByTo: FileRoutesByTo
@@ -124,7 +124,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/signup'
     | '/admin'
-    | '/emps'
+    | '/emp'
     | '/items'
     | '/settings'
     | '/'
@@ -136,7 +136,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/signup'
     | '/_layout/admin'
-    | '/_layout/emps'
+    | '/_layout/emp'
     | '/_layout/items'
     | '/_layout/settings'
     | '/_layout/'
@@ -208,11 +208,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutItemsRouteImport
       parentRoute: typeof LayoutRoute
     }
-    '/_layout/emps': {
-      id: '/_layout/emps'
-      path: '/emps'
-      fullPath: '/emps'
-      preLoaderRoute: typeof LayoutEmpsRouteImport
+    '/_layout/emp': {
+      id: '/_layout/emp'
+      path: '/emp'
+      fullPath: '/emp'
+      preLoaderRoute: typeof LayoutEmpRouteImport
       parentRoute: typeof LayoutRoute
     }
     '/_layout/admin': {
@@ -227,7 +227,7 @@ declare module '@tanstack/react-router' {
 
 interface LayoutRouteChildren {
   LayoutAdminRoute: typeof LayoutAdminRoute
-  LayoutEmpsRoute: typeof LayoutEmpsRoute
+  LayoutEmpRoute: typeof LayoutEmpRoute
   LayoutItemsRoute: typeof LayoutItemsRoute
   LayoutSettingsRoute: typeof LayoutSettingsRoute
   LayoutIndexRoute: typeof LayoutIndexRoute
@@ -235,7 +235,7 @@ interface LayoutRouteChildren {
 
 const LayoutRouteChildren: LayoutRouteChildren = {
   LayoutAdminRoute: LayoutAdminRoute,
-  LayoutEmpsRoute: LayoutEmpsRoute,
+  LayoutEmpRoute: LayoutEmpRoute,
   LayoutItemsRoute: LayoutItemsRoute,
   LayoutSettingsRoute: LayoutSettingsRoute,
   LayoutIndexRoute: LayoutIndexRoute,

@@ -16,7 +16,7 @@ function getEmpsQueryOptions() {
   }
 }
 
-export const Route = createFileRoute("/_layout/emps")({
+export const Route = createFileRoute("/_layout/emp")({
   component: Emps,
   head: () => ({
     meta: [
