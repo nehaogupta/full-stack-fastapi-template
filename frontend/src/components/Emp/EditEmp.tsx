@@ -33,7 +33,7 @@ import { handleError } from "@/utils"
 const formSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),
   workemail: z.string().min(1, { message: "Work email is required" }),
-  mobile: z.string().regex(/^[0-9]{10}$/, {message: "Mobile number must be exactly 10 digits"}),
+  mobile_number: z.string().regex(/^[0-9]{10}$/, {message: "Mobile number must be exactly 10 digits"}),
   address: z.string().optional(),
 })
 
@@ -56,7 +56,7 @@ const EditEmp = ({ emp, onSuccess }: EditEmpProps)  => {
     defaultValues: {
       workemail: emp.workemail,
       address: emp.address ?? "",
-      mobile: emp.mobile_number ?? "",
+      mobile_number: emp.mobile_number ?? "",
     },
   })
 
@@ -78,7 +78,7 @@ const EditEmp = ({ emp, onSuccess }: EditEmpProps)  => {
   })
 
   const onSubmit = (data: FormData) => {
-  mutation.mutate({...data, mobile: data.mobile})
+  mutation.mutate({...data, mobile_number: data.mobile_number})
 }
 
   return (
@@ -143,7 +143,7 @@ const EditEmp = ({ emp, onSuccess }: EditEmpProps)  => {
               {/* Mobile */}
               <FormField
                 control={form.control}
-                name="mobile"
+                name="mobile_number"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>

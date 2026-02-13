@@ -49,7 +49,7 @@ export const columns: ColumnDef<EmpPublic>[] = [
     header: "Work Email",
   },
   {
-    accessorKey: "mobile",
+    accessorKey: "mobile_number",
     header: "Mobile",
   },
   {

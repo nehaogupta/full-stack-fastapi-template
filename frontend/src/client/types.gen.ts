@@ -15,14 +15,14 @@ export type EmpCreate = {
     workemail: string;
     name?: (string | null);
     address?: (string | null);
-    mobile_number?: (string | null);
+    mobile_number?: string ;
 };
 
 export type EmpPublic = {
     workemail: string;
     name?: (string | null);
     address?: (string | null);
-    mobile_number?: (string | null);
+    mobile_number?: string ;
     empcode: UUID;
     emp_id: UUID;
     created_at?: (string | null);
@@ -37,7 +37,7 @@ export type EmpUpdate = {
     workemail: string;
     name?: (string | null);
     address?: (string | null);
-    mobile_number?: (string | null);
+    mobile_number?: string;
 };
 
 export type HTTPValidationError = {
