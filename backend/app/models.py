@@ -112,7 +112,7 @@ class DepBase(SQLModel):
     depcode: str = Field(default=None, max_length=10, unique=True, index=True)
 
 class DepCreate(DepBase):
-    pass
+    dep_id: uuid.UUID = Field(default_factory=uuid.uuid4)
 
 class DepUpdate(DepBase):
     dep_name: str = Field(default=None, max_length=200)
@@ -127,6 +127,7 @@ class Dep(DepBase, table=True):
     owner: User | None = Relationship(back_populates="deps")
 
 class DepPublic(DepBase):
+    depcode: str = Field(default=None, max_length=10)
     dep_id: uuid.UUID
     created_at: datetime | None = None
 
