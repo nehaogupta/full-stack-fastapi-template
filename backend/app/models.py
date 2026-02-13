@@ -109,16 +109,16 @@ class Message(SQLModel):
 
 class DepBase(SQLModel):
     dep_name: str = Field(default=None, max_length=200)
-    depcode:uuid.UUID = Field(default_factory=uuid.uuid4, unique=True)
+    depcode: str = Field(default=None, max_length=10, unique=True, index=True)
 
 class DepCreate(DepBase):
-    dep_id: uuid.UUID = Field(default_factory=uuid.uuid4)
+    pass
 
 class DepUpdate(DepBase):
     dep_name: str = Field(default=None, max_length=200)
 
 class Dep(DepBase, table=True):
-    depcode: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+    depcode: str = Field(default=None, max_length=10, primary_key=True)
     created_at: datetime | None = Field(
         default_factory=get_datetime_utc,
         sa_type=DateTime(timezone=True),  # type: ignore
