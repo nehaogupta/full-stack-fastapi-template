@@ -108,14 +108,14 @@ class Message(SQLModel):
     message: str
 
 class DepBase(SQLModel):
-    Depname: str = Field(default=None, max_length=200)
+    dep_name: str = Field(default=None, max_length=200)
     depcode:uuid.UUID = Field(default_factory=uuid.uuid4, unique=True)
 
 class DepCreate(DepBase):
     dep_id: uuid.UUID = Field(default_factory=uuid.uuid4)
 
 class DepUpdate(DepBase):
-    Depname: str = Field(default=None, max_length=200)
+    dep_name: str = Field(default=None, max_length=200)
 
 class Dep(DepBase, table=True):
     depcode: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
