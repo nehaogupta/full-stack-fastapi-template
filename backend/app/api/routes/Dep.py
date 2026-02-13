@@ -41,7 +41,7 @@ def read_deps(session: SessionDep, current_user: CurrentUser,skip: int = 0,limit
     return DepsPublic(data=deps, count=count)
 
 @router.get("/{depcode}", response_model=DepPublic)
-def read_dep(session: SessionDep, current_user: CurrentUser, depcode: uuid.UUID) -> Any:
+def read_dep(session: SessionDep, current_user: CurrentUser, depcode: str) -> Any:
     """
     Get Department by Depcode.
     """
