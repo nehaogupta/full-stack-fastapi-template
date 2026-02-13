@@ -60,6 +60,7 @@ class User(UserBase, table=True):
     )
     items: list["Item"] = Relationship(back_populates="owner", cascade_delete=True)
     emps: list["Emp"] = Relationship(back_populates="owner", cascade_delete=True)
+    deps: list["Dep"] = Relationship(back_populates="owner", cascade_delete=True)
 
 # Properties to return via API, id is always required
 class UserPublic(UserBase):
@@ -70,6 +71,40 @@ class UserPublic(UserBase):
 class UsersPublic(SQLModel):
     data: list[UserPublic]
     count: int
+
+class DepBase(SQLModel):
+    dep_name: str = Field(default=None, max_length=200)
+    dep_code: str = Field(default=None, max_length=50)
+
+
+class DepCreate(DepBase):
+    dep_id: uuid.UUID = Field(default_factory=uuid.uuid4)
+
+class DepUpdate(DepBase):
+    dep_name: str = Field(default=None, max_length=200)
+    dep_code: str = Field(default=None, max_length=50)
+
+class Dep(DepBase, table=True):
+    dep_id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+    created_at: datetime | None = Field(
+        default_factory=get_datetime_utc,
+        sa_type=DateTime(timezone=True),  # type: ignore
+    )
+    dep_id: uuid.UUID = Field(foreign_key="dep.dep_id", nullable=False, ondelete="CASCADE")
+    owner: User | None = Relationship(back_populates="deps")
+    
+
+class DepPublic(DepBase):
+    dep_id: uuid.UUID
+    created_at: datetime | None = None
+
+
+class DepsPublic(SQLModel):
+    data: list[DepPublic]
+    count: int
+
+class Message(SQLModel):
+    message: str
 
 class EmpBase(SQLModel):
     workemail: EmailStr = Field(unique=True, index=True, max_length=200)
