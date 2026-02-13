@@ -109,7 +109,7 @@ class Message(SQLModel):
 
 class DepBase(SQLModel):
     dep_name: str = Field(default=None, max_length=200)
-    depcode: str = Field(default=None, max_length=10, unique=True, index=True)
+    depcode:uuid.UUID = Field(default_factory=uuid.uuid4, unique=True)
 
 class DepCreate(DepBase):
     dep_id: uuid.UUID = Field(default_factory=uuid.uuid4)
@@ -118,7 +118,7 @@ class DepUpdate(DepBase):
     dep_name: str = Field(default=None, max_length=200)
 
 class Dep(DepBase, table=True):
-    depcode: str = Field(default=None, max_length=10, primary_key=True)
+    depcode: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     created_at: datetime | None = Field(
         default_factory=get_datetime_utc,
         sa_type=DateTime(timezone=True),  # type: ignore
@@ -127,7 +127,6 @@ class Dep(DepBase, table=True):
     owner: User | None = Relationship(back_populates="deps")
 
 class DepPublic(DepBase):
-    depcode: str = Field(default=None, max_length=10)
     dep_id: uuid.UUID
     created_at: datetime | None = None
 
