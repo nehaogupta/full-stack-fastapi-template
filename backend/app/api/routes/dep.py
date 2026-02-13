@@ -7,7 +7,7 @@ from sqlmodel import col, func, select
 from app.api.deps import CurrentUser, SessionDep
 from app.models import Dep, DepCreate, DepPublic, DepsPublic, DepUpdate, Message
 
-router = APIRouter(tags=["deps"])
+router = APIRouter(prefix="/deps", tags=["deps"])
 
 @router.get("/", response_model=DepsPublic)
 def read_deps(session: SessionDep, current_user: CurrentUser,skip: int = 0,limit: int = 10) -> Any:
