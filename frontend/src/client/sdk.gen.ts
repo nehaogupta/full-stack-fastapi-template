@@ -81,7 +81,7 @@ export class EmpsService {
         return __request(OpenAPI, {
             method: 'PATCH',
             url: '/api/v1/emps/{emp_id}',
-            query: {
+            path: {
                 emp_id: data.empId
             },
             body: data.requestBody,
@@ -104,7 +104,7 @@ export class EmpsService {
         return __request(OpenAPI, {
             method: 'DELETE',
             url: '/api/v1/emps/{emp_id}',
-            query: {
+            path: {
                 emp_id: data.empId
             },
             errors: {
