@@ -15,7 +15,7 @@ export type EmpCreate = {
     workemail: string;
     name?: (string | null);
     address?: (string | null);
-    mobile_number?: string ;
+    mobile_number?: string;
 };
 
 export type EmpPublic = {
