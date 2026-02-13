@@ -75,11 +75,11 @@ class UsersPublic(SQLModel):
 class DepBase(SQLModel):
     dep_name: str = Field(default=None, max_length=200)
     dep_code: str = Field(default=None, max_length=50)
-    dep_id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
+    dep_id: uuid.UUID = Field(default_factory=uuid.uuid4)
 
 
 class DepCreate(DepBase):
-    dep_id: uuid.UUID = Field(default_factory=uuid.uuid4)
+    depuserid: uuid.UUID = Field(default_factory=uuid.uuid4)
 
 class DepUpdate(DepBase):
     dep_name: str = Field(default=None, max_length=200)
@@ -91,9 +91,8 @@ class Dep(DepBase, table=True):
         default_factory=get_datetime_utc,
         sa_type=DateTime(timezone=True),  # type: ignore
     )
-    dep_id: uuid.UUID = Field(foreign_key="dep.dep_id", nullable=False, ondelete="CASCADE")
+    depuserid: uuid.UUID = Field(foreign_key="user.id", nullable=False, ondelete="CASCADE")
     owner: User | None = Relationship(back_populates="deps")
-    
 
 class DepPublic(DepBase):
     dep_id: uuid.UUID
