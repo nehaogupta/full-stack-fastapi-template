@@ -57,6 +57,7 @@ const EditEmp = ({ emp, onSuccess }: EditEmpProps)  => {
       workemail: emp.workemail,
       address: emp.address ?? "",
       mobile_number: emp.mobile_number ?? "",
+      name: emp.name ?? "",
     },
   })
 
