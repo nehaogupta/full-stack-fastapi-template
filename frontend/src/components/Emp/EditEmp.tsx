@@ -62,7 +62,7 @@ const EditEmp = ({ emp, onSuccess }: EditEmpProps)  => {
   const mutation = useMutation({
     mutationFn: (data: FormData) =>
       EmpsService.updateEmp({
-        empcode: emp.empcode,
+        empId: emp.empcode,
         requestBody: data,
       }),
     onSuccess: () => {

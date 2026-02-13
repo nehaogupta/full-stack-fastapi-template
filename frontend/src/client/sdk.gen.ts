@@ -80,9 +80,9 @@ export class EmpsService {
     public static updateEmp(data: EmpsUpdateEmpData): CancelablePromise<EmpsUpdateEmpResponse> {
         return __request(OpenAPI, {
             method: 'PATCH',
-            url: '/api/v1/emps/{empcode}',
-            path: {
-                empcode: data.empId
+            url: '/api/v1/emps/{id}',
+            query: {
+                emp_id: data.empId
             },
             body: data.requestBody,
             mediaType: 'application/json',
@@ -103,9 +103,9 @@ export class EmpsService {
     public static deleteEmp(data: EmpsDeleteEmpData): CancelablePromise<EmpsDeleteEmpResponse> {
         return __request(OpenAPI, {
             method: 'DELETE',
-            url: '/api/v1/emps/{empcode}',
-            path: {
-                empcode: data.empId
+            url: '/api/v1/emps/{id}',
+            query: {
+                emp_id: data.empId
             },
             errors: {
                 422: 'Validation Error'

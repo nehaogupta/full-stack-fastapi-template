@@ -31,7 +31,7 @@ const DeleteEmp = ({ id, onSuccess }: DeleteEmpProps) => {
   const { handleSubmit } = useForm()
 
   const deleteItem = async (id: string) => {
-    await EmpsService.deleteEmp({empcode: id,})
+    await EmpsService.deleteEmp({ empId: id })
   }
 
   const mutation = useMutation({
