@@ -111,10 +111,10 @@ class DepBase(SQLModel):
     Depname: str = Field(default=None, max_length=200)
     depcode:uuid.UUID = Field(default_factory=uuid.uuid4, unique=True)
 
-class EmpCreate(EmpBase):
+class DepCreate(DepBase):
     dep_id: uuid.UUID = Field(default_factory=uuid.uuid4)
 
-class EmpUpdate(EmpBase):
+class DepUpdate(DepBase):
     Depname: str = Field(default=None, max_length=200)
 
 class Dep(DepBase, table=True):
