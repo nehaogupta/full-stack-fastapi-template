@@ -75,6 +75,7 @@ class UsersPublic(SQLModel):
 class DepBase(SQLModel):
     dep_name: str = Field(default=None, max_length=200)
     dep_code: str = Field(default=None, max_length=50)
+    dep_id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
 
 
 class DepCreate(DepBase):
