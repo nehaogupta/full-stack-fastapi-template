@@ -30,8 +30,8 @@ const DeleteEmp = ({ id, onSuccess }: DeleteEmpProps) => {
   const { showSuccessToast, showErrorToast } = useCustomToast()
   const { handleSubmit } = useForm()
 
-  const deleteItem = async (id: string) => {
-    await EmpsService.deleteEmp({ empId: id })
+  const deleteItem = async (emp_id: string) => {
+    await EmpsService.deleteEmp({ empId: emp_id })
   }
 
   const mutation = useMutation({
