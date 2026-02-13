@@ -80,7 +80,7 @@ export class EmpsService {
     public static updateEmp(data: EmpsUpdateEmpData): CancelablePromise<EmpsUpdateEmpResponse> {
         return __request(OpenAPI, {
             method: 'PATCH',
-            url: '/api/v1/emps/{id}',
+            url: '/api/v1/emps/{emp_id}',
             query: {
                 emp_id: data.empId
             },
@@ -103,7 +103,7 @@ export class EmpsService {
     public static deleteEmp(data: EmpsDeleteEmpData): CancelablePromise<EmpsDeleteEmpResponse> {
         return __request(OpenAPI, {
             method: 'DELETE',
-            url: '/api/v1/emps/{id}',
+            url: '/api/v1/emps/{emp_id}',
             query: {
                 emp_id: data.empId
             },
