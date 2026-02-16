@@ -119,6 +119,10 @@ export class DepsService {
     /**
      * Read Deps
      * Retrieve Departments.
+     * @param data The data for the request.
+     * @param data.limit
+     * @returns DepsPublic Successful Response
+     * @throws ApiError
      */
     public static readDeps(data: DepsReadDepsData = {}): CancelablePromise<DepsReadDepsResponse> {
         return __request(OpenAPI, {
@@ -136,6 +140,10 @@ export class DepsService {
     /**
      * Create Dep
      * Create new Department.
+     * @param data The data for the request.
+     * @param data.requestBody
+     * @returns DepPublic Successful Response
+     * @throws ApiError
      */
     public static createDep(data: DepsCreateDepData): CancelablePromise<DepsCreateDepResponse> {
         return __request(OpenAPI, {
@@ -152,6 +160,10 @@ export class DepsService {
     /**
      * Read Dep
      * Get Department by ID.
+     * @param data The data for the request.
+     * @param data.depId
+     * @returns DepPublic Successful Response
+     * @throws ApiError
      */
     public static readDep(data: DepsReadDepData): CancelablePromise<DepsReadDepResponse> {
         return __request(OpenAPI, {
@@ -169,6 +181,11 @@ export class DepsService {
     /**
      * Update Dep
      * Update Department.
+     * @param data The data for the request.
+     * @param data.depId
+     * @param data.requestBody
+     * @returns DepPublic Successful Response
+     * @throws ApiError
      */
     public static updateDep(data: DepsUpdateDepData): CancelablePromise<DepsUpdateDepResponse> {
         return __request(OpenAPI, {
@@ -188,6 +205,10 @@ export class DepsService {
     /**
      * Delete Dep
      * Delete Department.
+     * @param data The data for the request.
+     * @param data.depId
+     * @returns Message Successful Response
+     * @throws ApiError
      */
     public static deleteDep(data: DepsDeleteDepData): CancelablePromise<DepsDeleteDepResponse> {
         return __request(OpenAPI, {
