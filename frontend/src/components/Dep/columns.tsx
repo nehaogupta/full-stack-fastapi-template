@@ -48,7 +48,7 @@ export const columns: ColumnDef<DepPublic>[] = [
     header: "Department Name",
     cell: ({ row }) => (
       <span className="text-muted-foreground">
-        {row.original.dep_name}
+        {row.original.ownerdep?.dep_name ?? "No Department"}
       </span>
     ),
   },

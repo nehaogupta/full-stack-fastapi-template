@@ -60,6 +60,7 @@ export type DepPublic = {
     dep_code: string;
     dep_id: UUID;
     created_at?: (string | null);
+    ownerdep?: DepPublic;
 };
 
 export type DepUpdate = {

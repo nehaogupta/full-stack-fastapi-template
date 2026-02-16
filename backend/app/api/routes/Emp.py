@@ -3,6 +3,7 @@ from typing import Any
 
 from fastapi import APIRouter, HTTPException
 from sqlmodel import col, func, select
+from sqlalchemy.orm import selectinload 
 
 from app.api.deps import CurrentUser, SessionDep
 from app.models import Emp, EmpCreate, EmpPublic, EmpsPublic, EmpUpdate, Message,Dep
@@ -18,7 +19,7 @@ def read_emps(session: SessionDep, current_user: CurrentUser,skip: int = 0,limit
         count_statement = select(func.count()).select_from(Emp)
         count = session.exec(count_statement).one()
         statement = (
-            select(Emp).order_by(col(Emp.created_at).desc()).offset(skip).limit(limit)
+            select(Emp).options(selectinload(Emp.ownerdep)).order_by(col(Emp.created_at).desc()).offset(skip).limit(limit)
         )
         emp = session.exec(statement).all()
     else:

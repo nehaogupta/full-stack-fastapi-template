@@ -139,7 +139,10 @@ class EmpPublic(EmpBase):
     emp_id: uuid.UUID
     depemp_id: Optional[uuid.UUID] = None
     created_at: datetime | None = None
-    dep_name:str= Field(default=None, max_length=200)
+    ownerdep: DepPublic | None  = None
+
+    class Config:
+        from_attributes = True
 
 
 class EmpsPublic(SQLModel):
