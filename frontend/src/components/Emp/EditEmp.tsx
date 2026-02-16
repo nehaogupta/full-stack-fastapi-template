@@ -35,6 +35,7 @@ const formSchema = z.object({
   workemail: z.string().min(1, { message: "Work email is required" }),
   mobile_number: z.string().regex(/^[0-9]{10}$/, {message: "Mobile number must be exactly 10 digits"}),
   address: z.string().optional(),
+  depemp_id: z.string().optional(),
 })
 
 type FormData = z.infer<typeof formSchema>
@@ -58,6 +59,7 @@ const EditEmp = ({ emp, onSuccess }: EditEmpProps)  => {
       address: emp.address ?? "",
       mobile_number: emp.mobile_number ?? "",
       name: emp.name ?? "",
+      depemp_id: emp.depemp_id ?? "",
     },
   })
 
@@ -79,7 +81,7 @@ const EditEmp = ({ emp, onSuccess }: EditEmpProps)  => {
   })
 
   const onSubmit = (data: FormData) => {
-  mutation.mutate({...data, mobile_number: data.mobile_number})
+  mutation.mutate({...data, mobile_number: data.mobile_number,depemp_id: data.depemp_id as `${string}-${string}-${string}-${string}-${string}`})
 }
 
   return (

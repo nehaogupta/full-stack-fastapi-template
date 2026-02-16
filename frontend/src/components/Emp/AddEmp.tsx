@@ -1,11 +1,12 @@
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { useMutation, useQueryClient,useQuery } from "@tanstack/react-query"
 import { Plus } from "lucide-react"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 
-import { type EmpCreate, EmpsService } from "@/client"
+import { type EmpCreate, EmpsService, DepsService } from "@/client"
+import type { DepsReadDepsData } from "@/client"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -35,9 +36,15 @@ const formSchema = z.object({
   workemail: z.string().min(1, { message: "Work email is required" }),
   mobile_number: z.string().regex(/^[0-9]{10}$/, {message: "Mobile number must be exactly 10 digits",}),
   address: z.string().optional(),
+  depemp_id: z.string().optional(),
 })
 
 type FormData = z.infer<typeof formSchema>
+
+const { data: DepsReadDepsData } = useQuery({
+  queryKey: ["deps"],
+  queryFn: () => DepsService.readDeps({}),
+})
 
 const AddEmp = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -53,6 +60,7 @@ const AddEmp = () => {
       workemail: "",
       mobile_number: "",
       address: "",
+      depemp_id: "",
 },
   })
 
@@ -71,7 +79,7 @@ const AddEmp = () => {
   })
 
   const onSubmit = (data: FormData) => {
-    mutation.mutate(data)
+    mutation.mutate({...data, depemp_id: data.depemp_id as `${string}-${string}-${string}-${string}-${string}`})
   }
 
   return (
@@ -150,6 +158,31 @@ const AddEmp = () => {
                               </FormItem>
                             )}
                             />
+                            <FormField
+                            control={form.control}
+                            name="depemp_id"
+                            render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>
+                                Department <span className="text-destructive">*</span>
+                                </FormLabel>
+                                <FormControl>
+                                  <select
+                                  className="border p-2 w-full rounded"
+                                  {...field}
+                                  >
+                                    <option value="">Select Department</option>
+                                    {DepsReadDepsData?.data?.map((dep) => (
+                                      <option key={dep.dep_id} value={dep.dep_id}>
+                                        {dep.dep_name}
+                                        </option>
+                                      ))}
+                                      </select>
+                                      </FormControl>
+                                      <FormMessage />
+                                      </FormItem>
+                                    )}
+                                    />
                             </div>
                             <DialogFooter>
                               <DialogClose asChild>

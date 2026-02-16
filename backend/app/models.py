@@ -136,7 +136,7 @@ class Emp(EmpBase, table=True):
 class EmpPublic(EmpBase):
     empcode: uuid.UUID
     emp_id: uuid.UUID
-    depemp_id: uuid.UUID | None = None
+    depemp_id: uuid.UUID
     created_at: datetime | None = None
 
 
