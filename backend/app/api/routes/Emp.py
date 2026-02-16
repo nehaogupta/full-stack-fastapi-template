@@ -3,7 +3,7 @@ from typing import Any
 
 from fastapi import APIRouter, HTTPException
 from sqlmodel import col, func, select
-from sqlalchemy.orm import selectinload 
+from sqlalchemy.orm import contains_eager
 
 from app.api.deps import CurrentUser, SessionDep
 from app.models import Emp, EmpCreate, EmpPublic, EmpsPublic, EmpUpdate, Message,Dep
@@ -11,34 +11,55 @@ from app.models import Emp, EmpCreate, EmpPublic, EmpsPublic, EmpUpdate, Message
 router = APIRouter(prefix="/emps",tags=["emps"])
 
 @router.get("/", response_model=EmpsPublic)
-def read_emps(session: SessionDep, current_user: CurrentUser,skip: int = 0,limit: int = 10) -> Any:
+def read_emps(
+    session: SessionDep,
+    current_user: CurrentUser,
+    skip: int = 0,
+    limit: int = 10,
+) -> Any:
     """
-    Retrieve Employees.
+    Retrieve Employees with Department (JOIN).
     """
+
     if current_user.is_superuser:
-        count_statement = select(func.count()).select_from(Emp)
-        count = session.exec(count_statement).one()
+
+        count = session.exec(
+            select(func.count()).select_from(Emp)
+        ).one()
+
         statement = (
-            select(Emp).options(selectinload(Emp.ownerdep)).order_by(col(Emp.created_at).desc()).offset(skip).limit(limit)
+            select(Emp)
+            .join(Dep, Dep.dep_id == Emp.depemp_id, isouter=True)  # 🔥 LEFT JOIN
+            .options(contains_eager(Emp.ownerdep))
+            .order_by(col(Emp.created_at).desc())
+            .offset(skip)
+            .limit(limit)
         )
+
         emp = session.exec(statement).all()
+
     else:
-        count_statement = (
+
+        count = session.exec(
             select(func.count())
             .select_from(Emp)
             .where(Emp.emp_id == current_user.id)
-        )
-        count = session.exec(count_statement).one()
+        ).one()
+
         statement = (
             select(Emp)
+            .join(Dep, Dep.dep_id == Emp.depemp_id, isouter=True)  # 🔥 LEFT JOIN
+            .options(contains_eager(Emp.ownerdep))
             .where(Emp.emp_id == current_user.id)
             .order_by(col(Emp.created_at).desc())
             .offset(skip)
             .limit(limit)
         )
+
         emp = session.exec(statement).all()
 
     return EmpsPublic(data=emp, count=count)
+
 
 @router.get("/{empcode}", response_model=EmpPublic)
 def read_emp(session: SessionDep, current_user: CurrentUser, empcode: uuid.UUID) -> Any:
