@@ -120,7 +120,7 @@ class EmpUpdate(EmpBase):
     address: str | None = Field(default=None, max_length=200)
     mobile_number: Mobile10
     depemp_id: uuid.UUID | None = Field(default=None, foreign_key="dep.dep_id")
-    dep_name: str = Field(default=None, max_length=200)
+    dep_name: str | None = Field(default=None, max_length=200)
 
 class Emp(EmpBase, table=True):
     empcode: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
@@ -132,7 +132,7 @@ class Emp(EmpBase, table=True):
     depemp_id: uuid.UUID = Field(default=None, foreign_key="dep.dep_id", nullable=True, ondelete="CASCADE")
     owner: User | None = Relationship(back_populates="emps")
     ownerdep: Dep | None = Relationship(back_populates="emps")
-      
+     
 class EmpPublic(EmpBase):
     empcode: uuid.UUID
     emp_id: uuid.UUID
