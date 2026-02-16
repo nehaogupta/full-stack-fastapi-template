@@ -123,7 +123,7 @@ export class DepsService {
     public static readDeps(data: DepsReadDepsData = {}): CancelablePromise<DepsReadDepsResponse> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/api/v1/deps/',
+            url: '/api/v1/dep/',
             query: {
                 limit: data.limit
             },
@@ -140,7 +140,7 @@ export class DepsService {
     public static createDep(data: DepsCreateDepData): CancelablePromise<DepsCreateDepResponse> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/api/v1/deps/',
+            url: '/api/v1/dep/',
             body: data.requestBody,
             mediaType: 'application/json',
             errors: {
@@ -156,7 +156,7 @@ export class DepsService {
     public static readDep(data: DepsReadDepData): CancelablePromise<DepsReadDepResponse> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/api/v1/deps/{dep_id}',
+            url: '/api/v1/dep/{dep_id}',
             path: {
                 dep_id: data.depId
             },
@@ -173,7 +173,7 @@ export class DepsService {
     public static updateDep(data: DepsUpdateDepData): CancelablePromise<DepsUpdateDepResponse> {
         return __request(OpenAPI, {
             method: 'PATCH',
-            url: '/api/v1/deps/{dep_id}',
+            url: '/api/v1/dep/{dep_id}',
             path: {
                 dep_id: data.depId
             },
@@ -192,7 +192,7 @@ export class DepsService {
     public static deleteDep(data: DepsDeleteDepData): CancelablePromise<DepsDeleteDepResponse> {
         return __request(OpenAPI, {
             method: 'DELETE',
-            url: '/api/v1/deps/{dep_id}',
+            url: '/api/v1/dep/{dep_id}',
             path: {
                 dep_id: data.depId
             },
