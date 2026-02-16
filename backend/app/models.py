@@ -115,7 +115,7 @@ class EmpBase(SQLModel):
 
 class EmpCreate(EmpBase):
     emp_id: uuid.UUID = Field(default_factory=uuid.uuid4)
-    depemp_id: uuid.UUID = Field(default_factory=uuid.uuid4)
+    depemp_id: uuid.UUID | None = Field(default=None, foreign_key="dep.dep_id")
 
 class EmpUpdate(EmpBase):
     address: str | None = Field(default=None, max_length=200)
@@ -135,7 +135,7 @@ class Emp(EmpBase, table=True):
 class EmpPublic(EmpBase):
     empcode: uuid.UUID
     emp_id: uuid.UUID
-    depemp_id: uuid.UUID
+    depemp_id: uuid.UUID | None = None
     created_at: datetime | None = None
 
 
