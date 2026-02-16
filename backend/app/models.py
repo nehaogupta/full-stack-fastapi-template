@@ -114,12 +114,13 @@ class EmpBase(SQLModel):
     mobile_number: Mobile10
 
 class EmpCreate(EmpBase):
-    depemp_id: Optional[uuid.UUID] = None 
+    dep_name: str = Field(default=None, max_length=200)
+    depemp_id: uuid.UUID | None = None
 
 class EmpUpdate(EmpBase):
     address: str | None = Field(default=None, max_length=200)
     mobile_number: Mobile10
-    depemp_id: Optional[uuid.UUID] = None
+    depemp_id: uuid.UUID | None = Field(default=None, foreign_key="dep.dep_id")
     dep_name: str = Field(default=None, max_length=200)
 
 class Emp(EmpBase, table=True):
@@ -131,14 +132,14 @@ class Emp(EmpBase, table=True):
     emp_id: uuid.UUID = Field(foreign_key="user.id", nullable=False, ondelete="CASCADE")
     depemp_id: uuid.UUID = Field(default=None, foreign_key="dep.dep_id", nullable=True, ondelete="CASCADE")
     owner: User | None = Relationship(back_populates="emps")
-    ownerdep: Optional["Dep"] = Relationship(back_populates="emps")
+    ownerdep: Dep | None = Relationship(back_populates="emps")
     
 class EmpPublic(EmpBase):
     empcode: uuid.UUID
     emp_id: uuid.UUID
     depemp_id: Optional[uuid.UUID] = None
     created_at: datetime | None = None
-    department: Optional["DepPublic"]
+    dep_name:str= Field(default=None, max_length=200)
 
 
 class EmpsPublic(SQLModel):

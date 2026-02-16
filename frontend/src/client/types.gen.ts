@@ -17,6 +17,7 @@ export type EmpCreate = {
     address?: (string | null);
     mobile_number?: string;
     depemp_id?: (UUID | null);
+    dep_name?: string;
 };
 
 export type EmpPublic = {
