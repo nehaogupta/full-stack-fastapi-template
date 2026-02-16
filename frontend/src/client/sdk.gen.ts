@@ -114,6 +114,95 @@ export class EmpsService {
     }
 }
 
+export class DepsService {
+
+    /**
+     * Read Deps
+     * Retrieve Departments.
+     */
+    public static readDeps(data: DepsReadDepsData = {}): CancelablePromise<DepsReadDepsResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/deps/',
+            query: {
+                limit: data.limit
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+
+    /**
+     * Create Dep
+     * Create new Department.
+     */
+    public static createDep(data: DepsCreateDepData): CancelablePromise<DepsCreateDepResponse> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/v1/deps/',
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+
+    /**
+     * Read Dep
+     * Get Department by ID.
+     */
+    public static readDep(data: DepsReadDepData): CancelablePromise<DepsReadDepResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/v1/deps/{dep_id}',
+            path: {
+                dep_id: data.depId
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+
+    /**
+     * Update Dep
+     * Update Department.
+     */
+    public static updateDep(data: DepsUpdateDepData): CancelablePromise<DepsUpdateDepResponse> {
+        return __request(OpenAPI, {
+            method: 'PATCH',
+            url: '/api/v1/deps/{dep_id}',
+            path: {
+                dep_id: data.depId
+            },
+            body: data.requestBody,
+            mediaType: 'application/json',
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+
+    /**
+     * Delete Dep
+     * Delete Department.
+     */
+    public static deleteDep(data: DepsDeleteDepData): CancelablePromise<DepsDeleteDepResponse> {
+        return __request(OpenAPI, {
+            method: 'DELETE',
+            url: '/api/v1/deps/{dep_id}',
+            path: {
+                dep_id: data.depId
+            },
+            errors: {
+                422: 'Validation Error'
+            }
+        });
+    }
+}
+
 export class ItemsService {
     /**
      * Read Items
