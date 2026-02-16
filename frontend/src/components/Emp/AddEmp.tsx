@@ -41,16 +41,15 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>
 
-const { data: DepsReadDepsData } = useQuery({
-  queryKey: ["deps"],
-  queryFn: () => DepsService.readDeps({}),
-})
-
 const AddEmp = () => {
   const [isOpen, setIsOpen] = useState(false)
   const queryClient = useQueryClient()
   const { showSuccessToast, showErrorToast } = useCustomToast()
-
+  
+  const { data: DepsReadDepsData } = useQuery({
+  queryKey: ["deps"],
+  queryFn: () => DepsService.readDeps({}),
+})
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     mode: "onBlur",

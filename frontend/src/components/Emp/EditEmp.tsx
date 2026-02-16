@@ -1,11 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query"
 import { Pencil } from "lucide-react"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 
-import { type EmpPublic, EmpsService } from "@/client"
+import { DepsService, type EmpPublic, EmpsService } from "@/client"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -49,6 +49,11 @@ const EditEmp = ({ emp, onSuccess }: EditEmpProps)  => {
   const [isOpen, setIsOpen] = useState(false)
   const queryClient = useQueryClient()
   const { showSuccessToast, showErrorToast } = useCustomToast()
+
+  const { data: DepsReadDepsData } = useQuery({
+  queryKey: ["deps"],
+  queryFn: () => DepsService.readDeps({}),
+})
 
   const form = useForm<FormData,any,FormData>({
     resolver: zodResolver(formSchema),
@@ -188,7 +193,31 @@ const EditEmp = ({ emp, onSuccess }: EditEmpProps)  => {
                   </FormItem>
                 )}
               />
-
+              <FormField
+              control={form.control}
+              name="depemp_id"
+              render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  Department <span className="text-destructive">*</span>
+                  </FormLabel>
+                  <FormControl>
+                    <select
+                    className="border p-2 w-full rounded"
+                    {...field}
+                    >
+                      <option value="">Select Department</option>
+                      {DepsReadDepsData?.data?.map((dep) => (
+                        <option key={dep.dep_id} value={dep.dep_id}>
+                          {dep.dep_name}
+                          </option>
+                        ))}
+                        </select>
+                        </FormControl>
+                        <FormMessage />
+                        </FormItem>
+                        )}
+                        />
             </div>
 
             <DialogFooter>
