@@ -109,13 +109,12 @@ class Message(SQLModel):
 
 class EmpBase(SQLModel):
     workemail: EmailStr = Field(unique=True, index=True, max_length=200)
-    name: str | None = Field(default=None, max_length=200)
+    name: str = Field(default=None, max_length=200)
     address: str | None = Field(default=None, max_length=200)
     mobile_number: Mobile10
-    dep_name: str = Field(default=None, max_length=200)
 
 class EmpCreate(EmpBase):
-    depemp_id: Optional[uuid.UUID] = None
+    depemp_id: uuid.UUID | None = None
 
 class EmpUpdate(EmpBase):
     address: str | None = Field(default=None, max_length=200)

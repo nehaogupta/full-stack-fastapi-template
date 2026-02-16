@@ -5,7 +5,7 @@ from fastapi import APIRouter, HTTPException
 from sqlmodel import col, func, select
 
 from app.api.deps import CurrentUser, SessionDep
-from app.models import Emp, EmpCreate, EmpPublic, EmpsPublic, EmpUpdate, Message,Dep,DepBase
+from app.models import Emp, EmpCreate, EmpPublic, EmpsPublic, EmpUpdate, Message,Dep
 
 router = APIRouter(prefix="/emps",tags=["emps"])
 
@@ -52,7 +52,7 @@ def read_emp(session: SessionDep, current_user: CurrentUser, empcode: uuid.UUID)
     return emps
 
 @router.post("/", response_model=EmpPublic)
-def create_emp(session: SessionDep, current_user: CurrentUser, emp_in: EmpCreate, dep_name: DepBase) -> Any:
+def create_emp(session: SessionDep, current_user: CurrentUser, emp_in: EmpCreate) -> Any:
     """
     Create new Employee.
     """
