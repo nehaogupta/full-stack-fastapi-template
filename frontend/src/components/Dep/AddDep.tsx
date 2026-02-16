@@ -25,10 +25,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-
-import { Plus } from "lucide-react"
-import LoadingButton from "@/components/custom/LoadingButton"
+import { LoadingButton } from "@/components/ui/loading-button"
 import useCustomToast from "@/hooks/useCustomToast"
+import { handleError } from "@/utils"
+import { Plus } from "lucide-react"
 import { DepsService } from "@/client"   // make sure this exists
 import type { DepCreate } from "@/client"
 
@@ -61,7 +61,7 @@ const AddDep = () => {
       form.reset()
       setIsOpen(false)
     },
-    onError: (error) => showErrorToast(error  instanceof Error ? error.message : "Something went wrong"),
+    onError: handleError.bind(showErrorToast),
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["deps"] })
     },

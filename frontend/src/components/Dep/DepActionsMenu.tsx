@@ -29,7 +29,7 @@ export const DepActionsMenu = ({ dep }: DepActionsMenuProps) => {
 
       <DropdownMenuContent align="end">
         <EditDep dep={dep} onSuccess={() => setOpen(false)} />
-        <DeleteDep id={dep.id} onSuccess={() => setOpen(false)} />
+        <DeleteDep id={dep.dep_id} onSuccess={() => setOpen(false)} />
       </DropdownMenuContent>
     </DropdownMenu>
   )
