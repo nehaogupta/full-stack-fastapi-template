@@ -76,7 +76,6 @@ class DepBase(SQLModel):
     dep_name: str = Field(default=None, max_length=200)
     dep_code: str = Field(default=None, max_length=50)
     dep_id: uuid.UUID = Field(default_factory=uuid.uuid4)
-    depemp_id: uuid.UUID | None = Field(default=None)
 
 
 class DepCreate(DepBase):
@@ -113,6 +112,7 @@ class EmpBase(SQLModel):
     name: str | None = Field(default=None, max_length=200)
     address: str | None = Field(default=None, max_length=200)
     mobile_number: Mobile10 = Field(default=None)
+    dep_name: str | None = Field(default=None, max_length=200)
 
 class EmpCreate(EmpBase):
     emp_id: uuid.UUID = Field(default_factory=uuid.uuid4)

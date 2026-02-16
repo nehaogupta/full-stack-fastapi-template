@@ -5,7 +5,7 @@ from fastapi import APIRouter, HTTPException
 from sqlmodel import col, func, select
 
 from app.api.deps import CurrentUser, SessionDep
-from app.models import Emp, EmpCreate, EmpPublic, EmpsPublic, EmpUpdate, Message
+from app.models import Emp, EmpCreate, EmpPublic, EmpsPublic, EmpUpdate, Message,Dep
 
 router = APIRouter(prefix="/emps",tags=["emps"])
 
@@ -59,7 +59,12 @@ def create_emp(session: SessionDep, current_user: CurrentUser, emp_in: EmpCreate
     emps = session.exec(select(Emp).where(Emp.workemail == emp_in.workemail)).first()
     if emps:
         raise HTTPException(status_code=400, detail="Employee with this email already exists")
-    emp = Emp(**emp_in.model_dump())
+    dep_name = None
+    if emp_in.depemp_id:
+        department = session.get(Dep, emp_in.depemp_id)
+        if department:
+            dep_name = department.dep_name
+    emp = Emp(**emp_in.model_dump(),emp_id=current_user.id,dep_name=dep_name)
     emp.emp_id = current_user.id
     session.add(emp)
     session.commit()
@@ -76,6 +81,10 @@ def update_emp(*,session: SessionDep, current_user: CurrentUser, emp_id: uuid.UU
         raise HTTPException(status_code=404, detail="Employee not found")
     if not current_user.is_superuser and (emps.emp_id != current_user.id):
         raise HTTPException(status_code=403, detail="Not enough permissions")
+    if emp_in.depemp_id:
+        department = session.get(Dep, emp_in.depemp_id)
+        if department:
+            emps.dep_name = department.dep_name
     update_emp = emp_in.model_dump(exclude_unset=True)
     emps.sqlmodel_update(update_emp)
     session.add(emps)
