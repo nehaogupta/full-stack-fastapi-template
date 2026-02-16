@@ -45,6 +45,23 @@ export const columns: ColumnDef<EmpPublic>[] = [
     ),
   },
   {
+    accessorKey: "dep_name",
+    header: "Department",
+    cell: ({ row }) => {
+      const depName = row.original.dep_name
+      return (
+        <span
+          className={cn(
+            "text-muted-foreground",
+            !depName && "italic"
+          )}
+        >
+          {depName || "No Department"}
+        </span>
+      )
+    },
+  },
+  {
     accessorKey: "workemail",
     header: "Work Email",
   },

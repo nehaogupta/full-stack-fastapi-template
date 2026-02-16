@@ -22,6 +22,7 @@ export type EmpCreate = {
 export type EmpPublic = {
     workemail: string;
     name?: string ;
+    dep_name?: string;
     address?: (string | null);
     mobile_number?: string;
     empcode: UUID;
