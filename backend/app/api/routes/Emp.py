@@ -28,7 +28,7 @@ def read_emps(
         ).one()
 
         statement = (
-            select(Emp)
+            select(Emp,Dep.dep_name, Dep.dep_code, Dep.dep_id)  # 🔥 Select Emp and Dep.dep_name and dep_code
             .join(Dep, Dep.dep_id == Emp.depemp_id, isouter=True)  # 🔥 LEFT JOIN
             .options(contains_eager(Emp.ownerdep))
             .order_by(col(Emp.created_at).desc())
@@ -47,7 +47,7 @@ def read_emps(
         ).one()
 
         statement = (
-            select(Emp)
+            select(Emp,Dep.dep_name, Dep.dep_code, Dep.dep_id)  # 🔥 Select Emp and Dep.dep_name and dep_code
             .join(Dep, Dep.dep_id == Emp.depemp_id, isouter=True)  # 🔥 LEFT JOIN
             .options(contains_eager(Emp.ownerdep))
             .where(Emp.emp_id == current_user.id)
