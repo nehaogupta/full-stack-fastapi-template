@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form"
 import { z } from "zod"
 
 import { type EmpCreate, EmpsService, DepsService } from "@/client"
-import type { DepsReadDepsData } from "@/client"
+//import type { DepsReadDepsData } from "@/client"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
