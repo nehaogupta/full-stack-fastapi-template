@@ -1,6 +1,6 @@
 import uuid
 from datetime import datetime, timezone
-from typing import Annotated
+from typing import Annotated, Optional
 
 from pydantic import EmailStr, StringConstraints
 from sqlalchemy import DateTime
@@ -136,7 +136,7 @@ class Emp(EmpBase, table=True):
 class EmpPublic(EmpBase):
     empcode: uuid.UUID
     emp_id: uuid.UUID
-    depemp_id: uuid.UUID
+    depemp_id: Optional[uuid.UUID] = None
     created_at: datetime | None = None
 
 
