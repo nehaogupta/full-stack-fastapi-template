@@ -25,12 +25,12 @@ def read_emps(session: SessionDep, current_user: CurrentUser,skip: int = 0,limit
         count_statement = (
             select(func.count())
             .select_from(Emp)
-            .where(Emp.emp_id == current_user.id)
+            .where(Emp.depemp_id == current_user.id)
         )
         count = session.exec(count_statement).one()
         statement = (
             select(Emp)
-            .where(Emp.emp_id == current_user.id)
+            .where(Emp.depemp_id == current_user.id)
             .order_by(col(Emp.created_at).desc())
             .offset(skip)
             .limit(limit)
@@ -59,12 +59,12 @@ def create_emp(session: SessionDep, current_user: CurrentUser, emp_in: EmpCreate
     emps = session.exec(select(Emp).where(Emp.workemail == emp_in.workemail)).first()
     if emps:
         raise HTTPException(status_code=400, detail="Employee with this email already exists")
-    emps = Emp.from_orm(emp_in)
-    emps.emp_id = current_user.id
-    session.add(emps)
+    emp = Emp(**emp_in.model_dump())
+    emp.emp_id = current_user.id
+    session.add(emp)
     session.commit()
-    session.refresh(emps)
-    return emps
+    session.refresh(emp)
+    return emp
 
 @router.patch("/{emp_id}", response_model=EmpPublic)
 def update_emp(*,session: SessionDep, current_user: CurrentUser, emp_id: uuid.UUID, emp_in: EmpUpdate) -> Any:
