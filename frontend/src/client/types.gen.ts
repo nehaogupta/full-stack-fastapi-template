@@ -41,6 +41,8 @@ export type EmpUpdate = {
     name?: (string | null);
     address?: (string | null);
     mobile_number?: (string | null);
+    depemp_id: (UUID|null);
+    dep_name?: string;
 };
 
 export type HTTPValidationError = {

@@ -120,6 +120,7 @@ class EmpUpdate(EmpBase):
     address: str | None = Field(default=None, max_length=200)
     mobile_number: Mobile10
     depemp_id: uuid.UUID | None = Field(default=None, foreign_key="dep.dep_id")
+    dep_name: str = Field(default=None, max_length=200)
 
 class Emp(EmpBase, table=True):
     empcode: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)

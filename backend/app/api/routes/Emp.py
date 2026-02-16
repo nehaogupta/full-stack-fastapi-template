@@ -58,17 +58,17 @@ def create_emp(session: SessionDep, current_user: CurrentUser, emp_in: EmpCreate
     """
     emps = session.exec(select(Emp).where(Emp.workemail == emp_in.workemail)).first()
     if emps:
-        raise HTTPException(status_code=400, detail="Employee with this email already exists")
+        raise HTTPException(status_code=400, detail="Employee with this email already exists",)
+    
     dep_name = None
     if emp_in.depemp_id:
         department = session.get(Dep, emp_in.depemp_id)
         if not department:
-            raise HTTPException(
-                status_code=404,
-                detail="Department not found",
-            )
+            raise HTTPException(status_code=404,detail="Department not found",)
         dep_name = department.dep_name
-    emp = Emp(emp_id=current_user.id, dep_name=dep_name)
+    emp = from_orm(emp_in)
+    emp.emp_id = current_user.id
+    emp.dep_name = dep_name
     session.add(emp)
     session.commit()
     session.refresh(emp)
