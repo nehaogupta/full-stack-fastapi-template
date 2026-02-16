@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query"
 import { DepsService } from "@/client"
 import { useState } from "react"
 
-export const Route = createFileRoute("/_layout/dep")({
+export const Route = createFileRoute("/_layout/deps")({
   component: DepPage,
 })
 
