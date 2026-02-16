@@ -5,7 +5,7 @@ from fastapi import APIRouter, HTTPException
 from sqlmodel import col, func, select
 
 from app.api.deps import CurrentUser, SessionDep
-from app.models import Emp, EmpCreate, EmpPublic, EmpsPublic, EmpUpdate, Message
+from app.models import Emp, EmpCreate, EmpPublic, EmpsPublic, EmpUpdate, Message,Dep
 
 router = APIRouter(prefix="/emps",tags=["emps"])
 
@@ -76,8 +76,8 @@ def update_emp(*,session: SessionDep, current_user: CurrentUser, emp_id: uuid.UU
         raise HTTPException(status_code=404, detail="Employee not found")
     if not current_user.is_superuser and (emps.emp_id != current_user.id):
         raise HTTPException(status_code=403, detail="Not enough permissions")
-    if emp_in.department_id:
-        department = session.get(Dep, emp_in.department_id)
+    if emp_in.depemp_id:
+        department = session.get(Dep, emp_in.depemp_id)
         if not department:
             raise HTTPException(status_code=404, detail="Department not found")
         
