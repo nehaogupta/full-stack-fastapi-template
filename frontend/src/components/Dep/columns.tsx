@@ -32,6 +32,11 @@ function CopyId({ id }: { id: string }) {
 
 export const columns: ColumnDef<DepPublic>[] = [
   {
+    accessorKey: "dep_id",
+    header: "Department ID",
+    cell: ({ row }) => <CopyId id={row.original.dep_id} />,
+  },
+  {
     accessorKey: "dep_code",
     header: "Department Code",
     cell: ({ row }) => (
