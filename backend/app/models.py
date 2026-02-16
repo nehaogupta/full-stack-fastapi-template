@@ -76,6 +76,7 @@ class DepBase(SQLModel):
     dep_name: str = Field(default=None, max_length=200)
     dep_code: str = Field(default=None, max_length=50)
     dep_id: uuid.UUID = Field(default_factory=uuid.uuid4)
+    depemp_id: uuid.UUID | None = Field(default=None)
 
 
 class DepCreate(DepBase):
@@ -128,7 +129,7 @@ class Emp(EmpBase, table=True):
         sa_type=DateTime(timezone=True),  # type: ignore
     )
     emp_id: uuid.UUID = Field(foreign_key="user.id", nullable=False, ondelete="CASCADE")
-    depemp_id: uuid.UUID = Field(foreign_key="dep.dep_id", ondelete="CASCADE")
+    depemp_id: uuid.UUID = Field(default=None, foreign_key="dep.dep_id", nullable=True, ondelete="CASCADE")
     owner: User | None = Relationship(back_populates="emps")
     ownerdep: Dep | None = Relationship(back_populates="emps")
     
