@@ -56,7 +56,7 @@ export const columns: ColumnDef<EmpPublic>[] = [
             !depName && "italic"
           )}
         >
-          {depName || "No Department"}
+          {depName}
         </span>
       )
     },
