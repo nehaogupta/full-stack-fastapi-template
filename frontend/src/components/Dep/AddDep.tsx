@@ -61,7 +61,7 @@ const AddDep = () => {
       form.reset()
       setIsOpen(false)
     },
-    onError: (error) => showErrorToast(error),
+    onError: (error) => showErrorToast(error  instanceof Error ? error.message : "Something went wrong"),
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["deps"] })
     },

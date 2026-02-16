@@ -198,6 +198,7 @@ export type EmpsDeleteEmpData = {
 export type EmpsDeleteEmpResponse = (Message);
 
 export type DepsReadDepsData = {
+    skip?: number;
     limit?: number;
 };
 
@@ -210,6 +211,7 @@ export type DepsCreateDepData = {
 export type DepsCreateDepResponse = (DepPublic);
 
 export type DepsReadDepData = {
+    skip: number;
     depId: string;
 };
 
