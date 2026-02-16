@@ -26,6 +26,7 @@ export type EmpPublic = {
     mobile_number?: string;
     empcode: UUID;
     emp_id: UUID;
+    depemp_id: (UUID|null);
     created_at?: (string | null);
 };
 
