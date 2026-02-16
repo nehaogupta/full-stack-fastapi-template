@@ -5,7 +5,7 @@ from fastapi import APIRouter, HTTPException
 from sqlmodel import col, func, select
 
 from app.api.deps import CurrentUser, SessionDep
-from app.models import Emp, EmpCreate, EmpPublic, EmpsPublic, EmpUpdate, Message,Dep
+from app.models import Emp, EmpCreate, EmpPublic, EmpsPublic, EmpUpdate, Message
 
 router = APIRouter(prefix="/emps",tags=["emps"])
 
@@ -58,22 +58,20 @@ def create_emp(session: SessionDep, current_user: CurrentUser, emp_in: EmpCreate
     """
     emps = session.exec(select(Emp).where(Emp.workemail == emp_in.workemail)).first()
     if emps:
-        raise HTTPException(status_code=400, detail="Employee with this email already exists",)
-    
-    dep_name = None
+        raise HTTPException(status_code=400, detail="Employee with this email already exists")
     if emp_in.depemp_id:
         department = session.get(Dep, emp_in.depemp_id)
         if not department:
-            raise HTTPException(status_code=404,detail="Department not found",)
-        dep_name = department.dep_name
-    emp = Emp(workemail=emp_in.workemail,name=emp_in.name,address=emp_in.address,mobile_number=emp_in.mobile_number,
-              depemp_id=emp_in.depemp_id,dep_name=dep_name,)
-    emp.emp_id = current_user.id
-    emp.dep_name = dep_name
-    session.add(emp)
+            raise HTTPException(
+                status_code=404,
+                detail="Department not found"
+            )
+    emps = Emp.model_validate(emp_in)
+    emps.emp_id = current_user.id
+    session.add(emps)
     session.commit()
-    session.refresh(emp)
-    return emp
+    session.refresh(emps)
+    return emps
 
 @router.patch("/{emp_id}", response_model=EmpPublic)
 def update_emp(*,session: SessionDep, current_user: CurrentUser, emp_id: uuid.UUID, emp_in: EmpUpdate) -> Any:
@@ -85,12 +83,12 @@ def update_emp(*,session: SessionDep, current_user: CurrentUser, emp_id: uuid.UU
         raise HTTPException(status_code=404, detail="Employee not found")
     if not current_user.is_superuser and (emps.emp_id != current_user.id):
         raise HTTPException(status_code=403, detail="Not enough permissions")
-    if "depemp_id" in emp_in.model_dump(exclude_unset=True) and emp_in.depemp_id:
+    if emp_in.depemp_id:
         department = session.get(Dep, emp_in.depemp_id)
-        if department:
-            emp_in.dep_name = department.dep_name
-    update_emp = emp_in.model_dump(exclude_unset=True)
-    emps.sqlmodel_update(update_emp)
+        if not department:
+            raise HTTPException(status_code=404, detail="Department not found")
+    update_data = emp_in.model_dump(exclude_unset=True)
+    emps.sqlmodel_update(update_data)
     session.add(emps)
     session.commit()
     session.refresh(emps)
