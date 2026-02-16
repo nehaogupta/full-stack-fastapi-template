@@ -130,9 +130,9 @@ class Emp(EmpBase, table=True):
         sa_type=DateTime(timezone=True),  # type: ignore
     )
     emp_id: uuid.UUID = Field(foreign_key="user.id", nullable=False, ondelete="CASCADE")
-    depemp_id: uuid.UUID = Field(default=None, foreign_key="dep.dep_id", nullable=True, ondelete="CASCADE")
+    depemp_id: Optional[uuid.UUID] = Field(default=None, foreign_key="dep.dep_id", nullable=True, ondelete="CASCADE")
     owner: User | None = Relationship(back_populates="emps")
-    ownerdep: Dep | None = Relationship(back_populates="emps")
+    ownerdep: Optional["Dep"] = Relationship(back_populates="emps",sa_relationship_kwargs={"foreign_keys": "[Emp.depemp_id]"})
     
 class EmpPublic(EmpBase):
     empcode: uuid.UUID
