@@ -115,7 +115,6 @@ class EmpBase(SQLModel):
     dep_name: str | None = Field(default=None, max_length=200)
 
 class EmpCreate(EmpBase):
-    emp_id: uuid.UUID = Field(default_factory=uuid.uuid4)
     depemp_id: uuid.UUID | None = Field(default=None, foreign_key="dep.dep_id")
 
 class EmpUpdate(EmpBase):
