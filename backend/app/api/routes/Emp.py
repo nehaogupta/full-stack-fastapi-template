@@ -66,7 +66,8 @@ def create_emp(session: SessionDep, current_user: CurrentUser, emp_in: EmpCreate
         if not department:
             raise HTTPException(status_code=404,detail="Department not found",)
         dep_name = department.dep_name
-    emp = from_orm(emp_in)
+    emp = Emp(workemail=emp_in.workemail,name=emp_in.name,address=emp_in.address,mobile_number=emp_in.mobile_number,
+              depemp_id=emp_in.depemp_id,dep_name=dep_name,)
     emp.emp_id = current_user.id
     emp.dep_name = dep_name
     session.add(emp)
