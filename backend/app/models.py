@@ -93,6 +93,7 @@ class Dep(DepBase, table=True):
     )
     depuserid: uuid.UUID = Field(foreign_key="user.id", nullable=False, ondelete="CASCADE")
     owner: User | None = Relationship(back_populates="deps")
+    emps: list["Emp"] = Relationship(back_populates="ownerdep", cascade_delete=True)
 
 class DepPublic(DepBase):
     dep_id: uuid.UUID
@@ -114,6 +115,7 @@ class EmpBase(SQLModel):
 
 class EmpCreate(EmpBase):
     emp_id: uuid.UUID = Field(default_factory=uuid.uuid4)
+    depemp_id: uuid.UUID = Field(default_factory=uuid.uuid4)
 
 class EmpUpdate(EmpBase):
     address: str | None = Field(default=None, max_length=200)
@@ -126,11 +128,14 @@ class Emp(EmpBase, table=True):
         sa_type=DateTime(timezone=True),  # type: ignore
     )
     emp_id: uuid.UUID = Field(foreign_key="user.id", nullable=False, ondelete="CASCADE")
+    depemp_id: uuid.UUID = Field(foreign_key="dep.dep_id", nullable=False, ondelete="CASCADE")
     owner: User | None = Relationship(back_populates="emps")
-
+    ownerdep: Dep | None = Relationship(back_populates="emps")
+    
 class EmpPublic(EmpBase):
     empcode: uuid.UUID
     emp_id: uuid.UUID
+    depemp_id: uuid.UUID
     created_at: datetime | None = None
 
 
