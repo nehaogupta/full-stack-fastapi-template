@@ -60,12 +60,20 @@ def create_emp(session: SessionDep, current_user: CurrentUser, emp_in: EmpCreate
     emps = session.exec(select(Emp).where(Emp.workemail == emp_in.workemail)).first()
     if emps:
         raise HTTPException(status_code=400, detail="Employee with this email already exists")
-    emps = Emp.from_orm(emp_in)
-    emps.emp_id = current_user.id
-    session.add(emps)
-    session.commit()
-    session.refresh(emps)
-    return emps
+    if emp_in.depemp_id:
+        department = session.get(Dep, emp_in.depemp_id)
+        if not department:
+            raise HTTPException(status_code=404, detail="Department not found")
+        dep_name_value = department.dep_name
+    else:
+        dep_name_value = None
+        emps = Emp.model_validate(emp_in)
+        emps.emp_id = current_user.id
+        emps.dep_name = dep_name_value
+        session.add(emps)
+        session.commit()
+        session.refresh(emps)
+        return emps
 
 @router.patch("/{emp_id}", response_model=EmpPublic)
 def update_emp(*,session: SessionDep, current_user: CurrentUser, emp_id: uuid.UUID, emp_in: EmpUpdate) -> Any:
@@ -77,11 +85,17 @@ def update_emp(*,session: SessionDep, current_user: CurrentUser, emp_id: uuid.UU
         raise HTTPException(status_code=404, detail="Employee not found")
     if not current_user.is_superuser and (emps.emp_id != current_user.id):
         raise HTTPException(status_code=403, detail="Not enough permissions")
-    if emp_in.depemp_id is not None:
-        if emp_in.depemp_id:
-            department = session.get(Dep, emp_in.depemp_id)
+    if "depemp_id" in update_data:
+        if update_data["depemp_id"]:
+            department = session.get(Dep, update_data["depemp_id"])
             if not department:
                 raise HTTPException(status_code=404, detail="Department not found")
+
+            # store department name in emp table
+            update_data["dep_name"] = department.dep_name
+        else:
+            # If department removed
+            update_data["dep_name"] = None
         
     update_data = emp_in.model_dump(exclude_unset=True)
     emps.sqlmodel_update(update_data)
@@ -89,17 +103,7 @@ def update_emp(*,session: SessionDep, current_user: CurrentUser, emp_id: uuid.UU
     session.commit()
     session.refresh(emps)
     session.refresh(emps, attribute_names=["ownerdep"])
-    return EmpPublic(
-        empcode=emps.empcode,
-        emp_id=emps.emp_id,
-        workemail=emps.workemail,
-        name=emps.name,
-        address=emps.address,
-        mobile_number=emps.mobile_number,
-        depemp_id=emps.depemp_id,
-        dep_name=emps.ownerdep.dep_name if emps.ownerdep else None,
-        created_at=emps.created_at,
-    )
+    return emps
 
 @router.delete("/{emp_id}", response_model=Message)
 def delete_emp(session: SessionDep, current_user: CurrentUser, emp_id: uuid.UUID) -> Any:
