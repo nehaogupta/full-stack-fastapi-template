@@ -86,7 +86,7 @@ const EditEmp = ({ emp, onSuccess }: EditEmpProps)  => {
   })
 
   const onSubmit = (data: FormData) => {
-  mutation.mutate({...data, mobile_number: data.mobile_number,depemp_id: data.depemp_id as `${string}-${string}-${string}-${string}-${string}`})
+  mutation.mutate({...data, mobile_number: data.mobile_number,depemp_id: data.depemp_id as `${string}-${string}-${string}-${string}-${string}` || null,})
 }
 
   return (
