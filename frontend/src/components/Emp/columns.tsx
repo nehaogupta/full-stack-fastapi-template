@@ -48,7 +48,7 @@ export const columns: ColumnDef<EmpPublic>[] = [
     accessorKey: "ownerdep.dep_name",
     header: "Department",
     cell: ({ row }) => {
-      const depName = row.original.ownerdep?.dep_name
+      const depName = row.original.dep_name
       return (
         <span
           className={cn(

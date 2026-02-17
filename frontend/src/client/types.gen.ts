@@ -30,7 +30,6 @@ export type EmpPublic = {
     emp_id: UUID;
     depemp_id: (UUID|null);
     created_at?: (string | null);
-    ownerdep?: EmpPublic;
 };
 
 export type EmpsPublic = {
