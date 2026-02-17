@@ -63,7 +63,7 @@ def create_emp(session: SessionDep, current_user: CurrentUser, emp_in: EmpCreate
     if emp_in.depemp_id:
         department = session.get(Dep, emp_in.depemp_id)
         if not department:
-            raise HTTPException(status_code=404, detail="Department not found")
+            raise HTTPException(status_code=404,detail="Department not found")
         dep_name_value = department.dep_name
     else:
         dep_name_value = None
