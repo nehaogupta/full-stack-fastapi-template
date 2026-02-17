@@ -67,13 +67,14 @@ def create_emp(session: SessionDep, current_user: CurrentUser, emp_in: EmpCreate
         dep_name_value = department.dep_name
     else:
         dep_name_value = None
-        emps = Emp.model_validate(emp_in)
-        emps.emp_id = current_user.id
-        emps.dep_name = dep_name_value
-        session.add(emps)
-        session.commit()
-        session.refresh(emps)
-        return emps
+    
+    emps = Emp.model_validate(emp_in)
+    emps.emp_id = current_user.id
+    emps.dep_name = dep_name_value
+    session.add(emps)
+    session.commit()
+    session.refresh(emps)
+    return EmpPublic.model_validate(emps)
 
 @router.patch("/{emp_id}", response_model=EmpPublic)
 def update_emp(*,session: SessionDep, current_user: CurrentUser, emp_id: uuid.UUID, emp_in: EmpUpdate) -> Any:
