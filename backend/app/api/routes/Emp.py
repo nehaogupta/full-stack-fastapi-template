@@ -86,12 +86,8 @@ def update_emp(*,session: SessionDep, current_user: CurrentUser, emp_id: uuid.UU
     emps.sqlmodel_update(update_data)
     session.add(emps)
     session.commit()
-    session.refresh(emps,attribute_names=["ownerdep"])
-    return {
-        "emp": emps,
-        "depemp_id": emps.depemp_id,
-        "dep_name": emps.ownerdep.dep_name if emps.ownerdep else None
-    }
+    session.refresh(emps)
+    return emps
 
 @router.delete("/{emp_id}", response_model=Message)
 def delete_emp(session: SessionDep, current_user: CurrentUser, emp_id: uuid.UUID) -> Any:
