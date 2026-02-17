@@ -26,13 +26,11 @@ def read_emps(session: SessionDep, current_user: CurrentUser,skip: int = 0,limit
         count_statement = (
             select(func.count())
             .select_from(Emp)
-            .options(selectinload(Emp.ownerdep))
             .where(Emp.emp_id == current_user.id)
         )
         count = session.exec(count_statement).one()
         statement = (
             select(Emp)
-            .options(selectinload(Emp.ownerdep))
             .where(Emp.emp_id == current_user.id)
             .order_by(col(Emp.created_at).desc())
             .offset(skip)
