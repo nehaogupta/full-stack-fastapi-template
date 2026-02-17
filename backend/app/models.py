@@ -130,6 +130,7 @@ class Emp(EmpBase, table=True):
     )
     emp_id: uuid.UUID = Field(foreign_key="user.id", nullable=False, ondelete="CASCADE")
     depemp_id: uuid.UUID = Field(default=None, foreign_key="dep.dep_id", nullable=True, ondelete="CASCADE")
+    dep_name: str | None = None
     owner: User | None = Relationship(back_populates="emps")
     ownerdep: Dep | None = Relationship(back_populates="emps")
 
