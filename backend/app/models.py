@@ -114,6 +114,7 @@ class EmpBase(SQLModel):
     mobile_number: Mobile10
 
 class EmpCreate(EmpBase):
+    emp_id: uuid.UUID = Field(default_factory=uuid.uuid4)
     depemp_id: uuid.UUID | None = None
 
 class EmpUpdate(EmpBase):
