@@ -86,13 +86,15 @@ def update_emp(*,session: SessionDep, current_user: CurrentUser, emp_id: uuid.UU
         raise HTTPException(status_code=404, detail="Employee not found")
     if not current_user.is_superuser and (emps.emp_id != current_user.id):
         raise HTTPException(status_code=403, detail="Not enough permissions")
+    update_data = emp_in.model_dump(exclude_unset=True)
     if emp_in.depemp_id is not None:
         if emp_in.depemp_id:
             department = session.get(Dep, emp_in.depemp_id)
             if not department:
                 raise HTTPException(status_code=404, detail="Department not found")
-        
-    update_data = emp_in.model_dump(exclude_unset=True)
+            update_data["dep_name"] = department.dep_name
+        else:
+            update_data["dep_name"] = None
     emps.sqlmodel_update(update_data)
     session.add(emps)
     session.commit()
